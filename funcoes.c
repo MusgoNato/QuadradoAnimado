@@ -2,45 +2,153 @@
 	#include "funcoes.h"
 	#include "conio_v3.2.4.h"
 	#include "console_v1.5.4.h"
+	#include <windows.h>
 	#include <stdlib.h>
-	#include <stdio.h>
 	
 	#define ESC 27
-	#define LINHAS 40
-	#define COLUNAS 100
+	#define F3 114
+	#define F4 115
+	#define F5 116
+	#define F6 117
+	#define F7 118
+	#define F8 119
+	#define F9 120
+	#define F10 121
 	
-	/*Cria as bordas do retângulo*/
-	void CriaRetangulo()
+	typedef struct _Cores
+	{
+		/*Preguiça de fazer isso*/
+	}
+	void Aumenta_Retangulo()
+	{
+		/*Limites
+		Menor linha: 1;
+		Maior linha: 40;
+		Menor coluna: 1;
+		Maior coluna: 100;
+		Menor largura da área: 3 colunas*/
+		
+		char tecla;
+		int cont_linhas_cima = 0;
+		int cont_linhas_baixo = 0;
+		int cont_coluna_esq = 0;
+		int cont_coluna_dir = 0;
+		scanf("%c", &tecla);
+		switch(tecla)
 		{
-			/*i é linha e j é Coluna*/
-			int j;
-			/*Tamanho Maximo da Janela e posicões(x,y) do retangulo*/
-			COORD tamMaxJanela;
-			/*COORD retangulo;*/
-			
-			/*Guarda o tamanho maximo da janela do console*/
-			tamMaxJanela = MaxDimensaoJanela();
-
-			/*Seta a Posicao da Janela do console*/
-			setDimensaoJanela(tamMaxJanela.X, tamMaxJanela.Y);
-			setPosicaoJanela(1,1);
-			
-			
-			/*Linha horizontal superior do retangulo*/
-			gotoxy((tamMaxJanela.X/2)/2, (tamMaxJanela.Y/2)/2);
-			for(j = 1; j < COLUNAS; j++)
+			/*ESC -> Encerra o programa*/
+			case 27: 
 			{
-				printf(" ");
-				Sleep(1000/100);
+				exit(0);
 			}
-			
-			/*Linha Vertical da esquerda do retangulo*/
-			gotoxy((tamMaxJanela.X/2)/2, (tamMaxJanela.Y/2)/2);
-			for(j = 1; j < LINHAS; j++)
+			/*F3 -> Aumenta a área esquerda do retãngulo*/
+			case 114: 
 			{
-				printf("  \n");
-				Sleep(1000/100);
+				cont_coluna_esq++;
+				Cria_Retangulo(cont_linhas_cima, cont_coluna_esq);
 			}
-			
-			system("pause");
+			/*F4 -> Diminui a área esquerda do retângulo*/
+			case 115:
+			{
+				cont_coluna_esq--;
+				Cria_Retangulo(cont_linhas_cima, cont_coluna_esq);
+			}
+			/*F5 -> Aumenta a área direita do retângulo*/
+			case 116:
+			{
+				cont_coluna_dir++;
+				Cria_Retangulo(cont_linhas_cima, cont_coluna_dir);
+			}
+			/*F6 -> Diminui a área direita do retângulo*/
+			case 117:
+			{
+				cont_coluna_dir--;
+				Cria_Retangulo(cont_linhas_cima, cont_coluna_dir);
+			}
+			/*F7 -> Aumenta a área da borda horizontal superior*/
+			case 118:
+			{
+				cont_linhas_cima++;
+				Cria_Retangulo(cont_linhas_cima, cont_coluna_esq);
+			}
+			/*F8 -> Diminui a área da borda horizontal superior*/
+			case 119:
+			{
+				cont_linhas_cima--;
+				Cria_Retangulo(cont_linhas_cima, cont_coluna_esq);
+			}
+			/*F9 -> Aumenta a área da borda horizontal inferior*/
+			case 120:
+			{
+				cont_linhas_baixo++;
+				Cria_Retangulo(cont_linhas_baixo, cont_coluna_dir);
+			}
+			/*F -> Diminui a área da borda horizontal inferior*/
+			case 121:
+			{
+				cont_linhas_baixo--;
+				Cria_Retangulo(cont_linhas_baixo, cont_coluna_dir);
+			}
+			/*Caso o usuário digite qualquer outra tecla*/
+			default:
+			{
+				Aumenta_Retangulo();
+			}
 		}
+	}
+	/*Cria as bordas do retângulo*/
+	void Cria_Retangulo(int linhas, int colunas)
+	{
+		int i, j, x, y;
+			
+		/*Tamanho Máximo da Janela para (x,y)*/
+		COORD tamMaxJanela;
+			
+		/*Guarda o tamanho maximo da janela do console*/
+		tamMaxJanela = MaxDimensaoJanela();
+			
+		/*Seta a nova Dimensao da Janela do Console*/
+		setDimensaoJanela(tamMaxJanela.X, tamMaxJanela.Y);
+		
+		x = (tamMaxJanela.X - colunas)/2;
+		y = (tamMaxJanela.Y - linhas)/2;
+		
+		/*Linha horizontal superior do retângulo*/
+		for(j = 0; j < colunas; j++)
+		{
+			gotoxy(x + j, y);
+			putchar(32);
+		}
+		/*Linha vertical da esquerda do retângulo*/
+		for(i = 0; i < linhas - 1; i++)
+		{
+			gotoxy(x, y + i + 1);
+			putchar(32);
+		}
+		/*Linha horizontal inferior do retângulo*/
+		for(j = 0; j < colunas - 1; j++)
+		{
+			gotoxy(x + j + 1, y + linhas - 1);
+			putchar(32);
+		}
+		/*Linha vertical da direita do retângulo*/
+		for(i = 0; i < linhas - 1; i++)
+		{
+			gotoxy(x + colunas - 1, y + i);
+			putchar(32);
+		}
+	}
+		
+	void Cria_Quadrado(COORD Quadrado)
+	{
+		int i;
+		/*Centraliza o quadrado no meio da tela*/
+		Quadrado = MaxDimensaoJanela();
+		gotoxy(Quadrado.X/2, Quadrado.Y/2);
+		for(i = Quadrado.X; i < Quadrado.Y+1; i++)
+		{
+			printf("*");
+		}
+		printf("*");
+		getchar();
+	}	
