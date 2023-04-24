@@ -5,7 +5,14 @@
 	#include <windows.h>
 	#include <stdlib.h>
 	
+	/*Tecla saída do programa*/
 	#define ESC 27
+	
+	/*Teclas para velocidade do quadrado*/
+	#define F1 112
+	#define F2 113
+	
+	/*Teclas para tamanho do retângulo*/
 	#define F3 114
 	#define F4 115
 	#define F5 116
@@ -15,10 +22,18 @@
 	#define F9 120
 	#define F10 121
 	
-	typedef struct _Cores
+	/*Teclas para o quadrado*/
+	#define TECLA_PARA_CIMA
+	#define TECLA_PARA_BAIXO
+	#define TECLA_PARA_DIREITA
+	#define TECLA_PARA_ESQUERDA
+	
+	/*typedef struct _Cores
 	{
-		/*Preguiça de fazer isso*/
-	}
+		Cores utilizadas para troca do retângulo e quadrado
+		
+	}CORES;*/
+	
 	void Aumenta_Retangulo()
 	{
 		/*Limites
@@ -34,6 +49,7 @@
 		int cont_coluna_esq = 0;
 		int cont_coluna_dir = 0;
 		scanf("%c", &tecla);
+		
 		switch(tecla)
 		{
 			/*ESC -> Encerra o programa*/
@@ -96,11 +112,12 @@
 			}
 		}
 	}
+	
 	/*Cria as bordas do retângulo*/
 	void Cria_Retangulo(int linhas, int colunas)
 	{
 		int i, j, x, y;
-			
+		
 		/*Tamanho Máximo da Janela para (x,y)*/
 		COORD tamMaxJanela;
 			
@@ -137,18 +154,28 @@
 			gotoxy(x + colunas - 1, y + i);
 			putchar(32);
 		}
+		Cria_Quadrado();
 	}
 		
-	void Cria_Quadrado(COORD Quadrado)
+	void Cria_Quadrado()
 	{
-		int i;
-		/*Centraliza o quadrado no meio da tela*/
+		/*Posições do Quadrado*/
+		int pos_X, pos_Y;
+		int tecla;
+		COORD Quadrado;
+		
+		/*Centraliza o quadrado no meio da tela e muda a cor do fundo para preto*/
+		textbackground(BLACK);
 		Quadrado = MaxDimensaoJanela();
-		gotoxy(Quadrado.X/2, Quadrado.Y/2);
-		for(i = Quadrado.X; i < Quadrado.Y+1; i++)
+		
+		pos_X = Quadrado.X/2;
+		pos_Y = Quadrado.Y/2;
+		gotoxy(pos_X, pos_Y);
+		
+		/*Desenha o Quadrado na tela*/
+		while(tecla != ESC)
 		{
-			printf("*");
+			putchar(18);
+			tecla = getch();
 		}
-		printf("*");
-		getchar();
 	}	

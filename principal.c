@@ -1,8 +1,8 @@
 ﻿	/*Programa: Quadrado Animado
-	Descrição: ******************
+	Descrição: O programa irá criar um retangulo com suas respectivas bordas e um quadrado
 	Programador: Hugo Josue Lema Das Neves
 	RGM: 47159
-	Data da última modificação: 12/04/2023*/
+	Data da última modificação: 24/04/2023*/
 
 	#include <stdlib.h> /* system() */
 	#include <string.h> /* strlen() */
@@ -15,6 +15,7 @@
 	{
 		int linhas = 40;
 		int colunas = 100;
+		
 		/*Artifício para silenciar os Warnings*/
 		argc = argc;
 		argv = argv;
@@ -27,13 +28,11 @@
 		
 		/*Chamada da função para criação do retângulo e quadrado*/
 		Cria_Retangulo(linhas, colunas);
-		Cria_Quadrado();
-		Aumenta_Retangulo();
+		/*Aumenta_Retangulo();*/
 
 		/*Devolve a cor original da janela de console*/
 		textbackground(BLACK);
 		textcolor(7);
-		clrscr();
 		system("cls");
 
 		return 0;
