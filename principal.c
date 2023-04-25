@@ -6,10 +6,10 @@
 
 	#include <stdlib.h> /* system() */
 	#include <string.h> /* strlen() */
-	#include <windows.h>
-	#include "funcoes.h"
-	#include "conio_v3.2.4.h"   /* textbackground(), window(), gotoxy(), getch(), constantes BLACK, BLUE, LIGHTGRAY, RED */
-	#include "console_v1.5.4.h"
+	#include <windows.h> 
+	#include "funcoes.h" /*Cria_Retangulo(), Cria_Quadrado()*/
+	#include "conio_v3.2.4.h"   /* textbackground(), window(), gotoxy(), getch(), constantes BLACK, BLUE, LIGHTGRAY */
+	#include "console_v1.5.4.h" 
 
 	int main(int argc, char *argv[])
 	{
@@ -28,7 +28,6 @@
 		
 		/*Chamada da função para criação do retângulo e quadrado*/
 		Cria_Retangulo(linhas, colunas);
-		/*Aumenta_Retangulo();*/
 
 		/*Devolve a cor original da janela de console*/
 		textbackground(BLACK);

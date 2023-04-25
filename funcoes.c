@@ -28,6 +28,12 @@
 	#define TECLA_PARA_DIREITA
 	#define TECLA_PARA_ESQUERDA
 	
+	/*Tecla para mudança da cor do Quadrado*/
+	/*#define ESPAÇO Ñ sei seu código ainda*/
+	
+	/*Tecla para mudança da cor do retângulo*/
+	#define TAB 9
+	
 	/*typedef struct _Cores
 	{
 		Cores utilizadas para troca do ret�ngulo e quadrado
@@ -48,7 +54,7 @@
 		int cont_linhas_baixo = 0;
 		int cont_coluna_esq = 0;
 		int cont_coluna_dir = 0;
-		scanf("%c", &tecla);
+		tecla = getch();
 		
 		switch(tecla)
 		{
@@ -56,59 +62,69 @@
 			case 27:
 			{
 				exit(0);
+				break;
 			}
 			/*F3 -> Aumenta a �rea esquerda do ret�ngulo*/
 			case 114: 
 			{
 				cont_coluna_esq++;
 				Cria_Retangulo(cont_linhas_cima, cont_coluna_esq);
+				break;
 			}
 			/*F4 -> Diminui a �rea esquerda do ret�ngulo*/
 			case 115:
 			{
 				cont_coluna_esq--;
 				Cria_Retangulo(cont_linhas_cima, cont_coluna_esq);
+				break;
 			}
 			/*F5 -> Aumenta a �rea direita do ret�ngulo*/
 			case 116:
 			{
 				cont_coluna_dir++;
 				Cria_Retangulo(cont_linhas_cima, cont_coluna_dir);
+				break;
 			}
 			/*F6 -> Diminui a �rea direita do ret�ngulo*/
 			case 117:
 			{
 				cont_coluna_dir--;
 				Cria_Retangulo(cont_linhas_cima, cont_coluna_dir);
+				break;
 			}
 			/*F7 -> Aumenta a �rea da borda horizontal superior*/
 			case 118:
 			{
 				cont_linhas_cima++;
 				Cria_Retangulo(cont_linhas_cima, cont_coluna_esq);
+				break;
 			}
 			/*F8 -> Diminui a �rea da borda horizontal superior*/
 			case 119:
 			{
 				cont_linhas_cima--;
 				Cria_Retangulo(cont_linhas_cima, cont_coluna_esq);
+				break;
 			}
 			/*F9 -> Aumenta a �rea da borda horizontal inferior*/
 			case 120:
 			{
 				cont_linhas_baixo++;
 				Cria_Retangulo(cont_linhas_baixo, cont_coluna_dir);
+				break;
 			}
 			/*F10 -> Diminui a �rea da borda horizontal inferior*/
 			case 121:
 			{
 				cont_linhas_baixo--;
 				Cria_Retangulo(cont_linhas_baixo, cont_coluna_dir);
+				break;
 			}
 			/*Caso o usu�rio digite qualquer outra tecla*/
 			default:
 			{
 				Aumenta_Retangulo();
+				break;
 			}
 		}
 	}
@@ -166,6 +182,7 @@
 	{
 		int pos_X;
 		int pos_Y;
+		char tecla;
 		
 		/*Troca o fundo da janela do console*/
 		textbackground(BLACK);
@@ -174,42 +191,67 @@
 		pos_Y = Quadrado.Y/2;
 		
 		/*Desenha o Quadrado na tela*/
+		do
+		{
+			/*Meio do Quadrado*/
+			gotoxy(pos_X,pos_Y);
+			putchar(42);
+				
+			/*Acima do meio */
+			gotoxy(pos_X,pos_Y + 1);
+			putchar(42);
 		
-		/* meio de referencia caso eu me perca*/
-		gotoxy(pos_X,pos_Y);
-		putchar(42);
+			/*Abaixo do meio*/ 
+			gotoxy(pos_X,pos_Y + 2);
+			putchar(42);
 			
-		/* cima do meio */
-		gotoxy(pos_X,pos_Y + 1);
-		putchar(42);
-	
-		/*baixo do meio*/ 
-		gotoxy(pos_X,pos_Y + 2);
-		putchar(42);
-		
-		/*[0][0] ponto esquerdo*/ 
-		gotoxy(pos_X - 1 ,pos_Y);
-		putchar(42);
-		
-		/*direita do meio*/
-		gotoxy(pos_X - 1, pos_Y + 1);
-		putchar(42);
+			/*[0][0] ponto esquerdo*/ 
+			gotoxy(pos_X - 1 ,pos_Y);
+			putchar(42);
 			
-		/*ponta esquerda de baixo do quadrado*/
-		gotoxy(pos_X - 1,pos_Y + 2);
-		putchar(42);
-		
-		/**/
-		gotoxy(pos_X + 1, pos_Y);
-		putchar(42);
-		
-		/**/
-		gotoxy(pos_X + 1, pos_Y + 1);
-		putchar(42);
-		
-		/*ponta direita de baixo do quadrado*/
-		gotoxy(pos_X + 1, pos_Y + 2);
-		putchar(42);
-		getchar();
+			/*direita do meio*/
+			gotoxy(pos_X - 1, pos_Y + 1);
+			putchar(42);
+				
+			/*ponta esquerda de baixo do quadrado*/
+			gotoxy(pos_X - 1,pos_Y + 2);
+			putchar(42);
+			
+			/**/
+			gotoxy(pos_X + 1, pos_Y);
+			putchar(42);
+			
+			/**/
+			gotoxy(pos_X + 1, pos_Y + 1);
+			putchar(42);
+			
+			/*ponta direita de baixo do quadrado*/
+			gotoxy(pos_X + 1, pos_Y + 2);
+			putchar(42);
+			
+			tecla = getch();
+		}while(tecla != ESC);
 	
 	}	
+	/*void Movimento_Quadrado(COORD Quadrado)
+	{
+		int movimento;
+		int i;
+		
+	}*/
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
