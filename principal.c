@@ -1,4 +1,4 @@
-﻿	/*Programa: Quadrado Animado
+	/*Programa: Quadrado Animado
 	Descrição: O programa irá criar um retangulo com suas respectivas bordas e um quadrado
 	Programador: Hugo Josue Lema Das Neves
 	RGM: 47159
@@ -33,7 +33,6 @@
 		/*Devolve a cor original da janela de console*/
 		textbackground(BLACK);
 		textcolor(7);
-		system("cls");
-
+		clrscr();
 		return 0;
 	}

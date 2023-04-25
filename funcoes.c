@@ -1,18 +1,18 @@
-	/*Algumas funções para utilização na main principal*/
+	/*Algumas funï¿½ï¿½es para utilizaï¿½ï¿½o na main principal*/
 	#include "funcoes.h"
 	#include "conio_v3.2.4.h"
 	#include "console_v1.5.4.h"
 	#include <windows.h>
 	#include <stdlib.h>
 	
-	/*Tecla saída do programa*/
+	/*Tecla saï¿½da do programa*/
 	#define ESC 27
 	
 	/*Teclas para velocidade do quadrado*/
 	#define F1 112
 	#define F2 113
 	
-	/*Teclas para tamanho do retângulo*/
+	/*Teclas para tamanho do retï¿½ngulo*/
 	#define F3 114
 	#define F4 115
 	#define F5 116
@@ -30,7 +30,7 @@
 	
 	/*typedef struct _Cores
 	{
-		Cores utilizadas para troca do retângulo e quadrado
+		Cores utilizadas para troca do retï¿½ngulo e quadrado
 		
 	}CORES;*/
 	
@@ -41,7 +41,7 @@
 		Maior linha: 40;
 		Menor coluna: 1;
 		Maior coluna: 100;
-		Menor largura da área: 3 colunas*/
+		Menor largura da ï¿½rea: 3 colunas*/
 		
 		char tecla;
 		int cont_linhas_cima = 0;
@@ -53,59 +53,59 @@
 		switch(tecla)
 		{
 			/*ESC -> Encerra o programa*/
-			case 27: 
+			case 27:
 			{
 				exit(0);
 			}
-			/*F3 -> Aumenta a área esquerda do retãngulo*/
+			/*F3 -> Aumenta a ï¿½rea esquerda do retï¿½ngulo*/
 			case 114: 
 			{
 				cont_coluna_esq++;
 				Cria_Retangulo(cont_linhas_cima, cont_coluna_esq);
 			}
-			/*F4 -> Diminui a área esquerda do retângulo*/
+			/*F4 -> Diminui a ï¿½rea esquerda do retï¿½ngulo*/
 			case 115:
 			{
 				cont_coluna_esq--;
 				Cria_Retangulo(cont_linhas_cima, cont_coluna_esq);
 			}
-			/*F5 -> Aumenta a área direita do retângulo*/
+			/*F5 -> Aumenta a ï¿½rea direita do retï¿½ngulo*/
 			case 116:
 			{
 				cont_coluna_dir++;
 				Cria_Retangulo(cont_linhas_cima, cont_coluna_dir);
 			}
-			/*F6 -> Diminui a área direita do retângulo*/
+			/*F6 -> Diminui a ï¿½rea direita do retï¿½ngulo*/
 			case 117:
 			{
 				cont_coluna_dir--;
 				Cria_Retangulo(cont_linhas_cima, cont_coluna_dir);
 			}
-			/*F7 -> Aumenta a área da borda horizontal superior*/
+			/*F7 -> Aumenta a ï¿½rea da borda horizontal superior*/
 			case 118:
 			{
 				cont_linhas_cima++;
 				Cria_Retangulo(cont_linhas_cima, cont_coluna_esq);
 			}
-			/*F8 -> Diminui a área da borda horizontal superior*/
+			/*F8 -> Diminui a ï¿½rea da borda horizontal superior*/
 			case 119:
 			{
 				cont_linhas_cima--;
 				Cria_Retangulo(cont_linhas_cima, cont_coluna_esq);
 			}
-			/*F9 -> Aumenta a área da borda horizontal inferior*/
+			/*F9 -> Aumenta a ï¿½rea da borda horizontal inferior*/
 			case 120:
 			{
 				cont_linhas_baixo++;
 				Cria_Retangulo(cont_linhas_baixo, cont_coluna_dir);
 			}
-			/*F -> Diminui a área da borda horizontal inferior*/
+			/*F10 -> Diminui a ï¿½rea da borda horizontal inferior*/
 			case 121:
 			{
 				cont_linhas_baixo--;
 				Cria_Retangulo(cont_linhas_baixo, cont_coluna_dir);
 			}
-			/*Caso o usuário digite qualquer outra tecla*/
+			/*Caso o usuï¿½rio digite qualquer outra tecla*/
 			default:
 			{
 				Aumenta_Retangulo();
@@ -113,69 +113,103 @@
 		}
 	}
 	
-	/*Cria as bordas do retângulo*/
+	/*Cria as bordas do retï¿½ngulo*/
 	void Cria_Retangulo(int linhas, int colunas)
 	{
 		int i, j, x, y;
 		
-		/*Tamanho Máximo da Janela para (x,y)*/
+		/*Tamanho Mï¿½ximo da Janela para (x,y)*/
 		COORD tamMaxJanela;
-			
+		COORD Quadrado;
+		
 		/*Guarda o tamanho maximo da janela do console*/
 		tamMaxJanela = MaxDimensaoJanela();
-			
+		Quadrado = MaxDimensaoJanela();
+		
 		/*Seta a nova Dimensao da Janela do Console*/
 		setDimensaoJanela(tamMaxJanela.X, tamMaxJanela.Y);
 		
 		x = (tamMaxJanela.X - colunas)/2;
 		y = (tamMaxJanela.Y - linhas)/2;
 		
-		/*Linha horizontal superior do retângulo*/
+		/*Linha horizontal superior do retï¿½ngulo*/
 		for(j = 0; j < colunas; j++)
 		{
 			gotoxy(x + j, y);
 			putchar(32);
 		}
-		/*Linha vertical da esquerda do retângulo*/
+		/*Linha vertical da esquerda do retï¿½ngulo*/
 		for(i = 0; i < linhas - 1; i++)
 		{
 			gotoxy(x, y + i + 1);
 			putchar(32);
 		}
-		/*Linha horizontal inferior do retângulo*/
+		/*Linha horizontal inferior do retï¿½ngulo*/
 		for(j = 0; j < colunas - 1; j++)
 		{
 			gotoxy(x + j + 1, y + linhas - 1);
 			putchar(32);
 		}
-		/*Linha vertical da direita do retângulo*/
+		/*Linha vertical da direita do retï¿½ngulo*/
 		for(i = 0; i < linhas - 1; i++)
 		{
 			gotoxy(x + colunas - 1, y + i);
 			putchar(32);
 		}
-		Cria_Quadrado();
+		Cria_Quadrado(Quadrado);
+		
+		/*Posiciona x e y para o final da linha console*/
+		gotoxy(tamMaxJanela.X, tamMaxJanela.Y);
 	}
 		
-	void Cria_Quadrado()
+	void Cria_Quadrado(COORD Quadrado)
 	{
-		/*Posições do Quadrado*/
-		int pos_X, pos_Y;
-		int tecla;
-		COORD Quadrado;
+		int pos_X;
+		int pos_Y;
 		
-		/*Centraliza o quadrado no meio da tela e muda a cor do fundo para preto*/
+		/*Troca o fundo da janela do console*/
 		textbackground(BLACK);
-		Quadrado = MaxDimensaoJanela();
-		
+	
 		pos_X = Quadrado.X/2;
 		pos_Y = Quadrado.Y/2;
-		gotoxy(pos_X, pos_Y);
 		
 		/*Desenha o Quadrado na tela*/
-		while(tecla != ESC)
-		{
-			putchar(18);
-			tecla = getch();
-		}
+		
+		/* meio de referencia caso eu me perca*/
+		gotoxy(pos_X,pos_Y);
+		putchar(42);
+			
+		/* cima do meio */
+		gotoxy(pos_X,pos_Y + 1);
+		putchar(42);
+	
+		/*baixo do meio*/ 
+		gotoxy(pos_X,pos_Y + 2);
+		putchar(42);
+		
+		/*[0][0] ponto esquerdo*/ 
+		gotoxy(pos_X - 1 ,pos_Y);
+		putchar(42);
+		
+		/*direita do meio*/
+		gotoxy(pos_X - 1, pos_Y + 1);
+		putchar(42);
+			
+		/*ponta esquerda de baixo do quadrado*/
+		gotoxy(pos_X - 1,pos_Y + 2);
+		putchar(42);
+		
+		/**/
+		gotoxy(pos_X + 1, pos_Y);
+		putchar(42);
+		
+		/**/
+		gotoxy(pos_X + 1, pos_Y + 1);
+		putchar(42);
+		
+		/*ponta direita de baixo do quadrado*/
+		gotoxy(pos_X + 1, pos_Y + 2);
+		putchar(42);
+		getchar();
+	
 	}	

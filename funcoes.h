@@ -1,9 +1,9 @@
-	/*Chamadas de funções e declaração de estruturas*/
+	/*Chamadas de funï¿½ï¿½es e declaraï¿½ï¿½o de estruturas*/
 	#include <locale.h>
 	#include <stdlib.h>
 	#include <windows.h>
 	
-	/*Chamada da função que  irá criar o nosso retângulo*/
+	/*Chamada da funï¿½ï¿½o que  irï¿½ criar o nosso retï¿½ngulo*/
 	/*void Aumenta_Retangulo();*/
 	void Cria_Retangulo(int linhas, int colunas);
-	void Cria_Quadrado();
+	void Cria_Quadrado(COORD Quadrado);
