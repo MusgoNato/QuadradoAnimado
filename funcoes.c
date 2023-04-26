@@ -1,9 +1,9 @@
 	/*Algumas fun��es para utiliza��o na main principal*/
-	#include "funcoes.h"
 	#include "conio_v3.2.4.h"
 	#include "console_v1.5.4.h"
-	#include <windows.h>
+	#include "funcoes.h"
 	#include <stdlib.h>
+	#include <windows.h>
 	
 	/*Tecla sa�da do programa*/
 	#define ESC 27
@@ -23,8 +23,8 @@
 	#define F10 121
 	
 	/*Teclas para o quadrado*/
-	#define TECLA_PARA_CIMA
 	#define TECLA_PARA_BAIXO
+	#define TECLA_PARA_CIMA
 	#define TECLA_PARA_DIREITA
 	#define TECLA_PARA_ESQUERDA
 	
@@ -41,13 +41,50 @@
 	}CORES;*/
 	
 	/*Apaga o Quadrado passando a sua última posição que ele tinha*/
-	void Apaga_Quadrado(int pos_X, int pos_Y)
+	void Apaga_Quadrado(int pos_X, int pos_Y, int linhas)
 	{
-		int x, y;
-		x = pos_X;
-		y = pos_Y;
-		gotoxy(x, y);
-		putchar(32);	
+		int i;
+		
+		/*"Apaga" o quadrado anterior*/
+		for(i = 0; i < linhas - i; i++)
+		{
+			/*Meio do Quadrado*/
+			gotoxy(pos_X, pos_Y - i);
+			putchar(32);
+					
+			/*Acima do meio*/ 
+			gotoxy(pos_X, pos_Y + 1 - i);
+			putchar(32);
+					
+			/*Abaixo do meio*/
+			gotoxy(pos_X, pos_Y + 2 - i);
+			putchar(32);
+				
+			/*[0][0] ponto esquerdo*/
+			gotoxy(pos_X - 1, pos_Y - i);
+			putchar(32);
+					
+			/*direita do meio*/
+			gotoxy(pos_X - 1, pos_Y + 1);
+			putchar(32);
+						
+			/*ponta esquerda de baixo do quadrado*/
+			gotoxy(pos_X - 1, pos_Y + 2 - i);
+			putchar(32);
+					
+			/**/
+			gotoxy(pos_X + 1, pos_Y - i);
+			putchar(32);
+					
+			/**/
+			gotoxy(pos_X + 1, pos_Y + 1 - i);
+			putchar(32);
+					
+			/*ponta direita de baixo do quadrado*/
+			gotoxy(pos_X + 1, pos_Y + 2 - i);
+			putchar(32);
+			Sleep(1000/100);
+		}	
 	}
 	
 	/*Essa função nao ta pronta e nao interfere no programa*/
@@ -208,11 +245,11 @@
 			/*Meio do Quadrado*/
 			gotoxy(pos_X, pos_Y - i);
 			putchar(42);
-				
+					
 			/*Acima do meio*/ 
 			gotoxy(pos_X, pos_Y + 1 - i);
 			putchar(42);
-				
+					
 			/*Abaixo do meio*/
 			gotoxy(pos_X, pos_Y + 2 - i);
 			putchar(42);
@@ -220,29 +257,29 @@
 			/*[0][0] ponto esquerdo*/
 			gotoxy(pos_X - 1, pos_Y - i);
 			putchar(42);
-				
+					
 			/*direita do meio*/
 			gotoxy(pos_X - 1, pos_Y + 1);
 			putchar(42);
-					
+						
 			/*ponta esquerda de baixo do quadrado*/
 			gotoxy(pos_X - 1, pos_Y + 2 - i);
 			putchar(42);
-				
+					
 			/**/
 			gotoxy(pos_X + 1, pos_Y - i);
 			putchar(42);
-				
+					
 			/**/
 			gotoxy(pos_X + 1, pos_Y + 1 - i);
 			putchar(42);
-				
+					
 			/*ponta direita de baixo do quadrado*/
 			gotoxy(pos_X + 1, pos_Y + 2 - i);
 			putchar(42);
 			Sleep(1000/10);
-			Apaga_Quadrado(pos_X, pos_Y);
-		}
+			Apaga_Quadrado(pos_X, pos_Y, linhas);
+			}
 	}
 	
 	
