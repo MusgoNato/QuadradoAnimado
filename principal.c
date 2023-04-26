@@ -28,7 +28,7 @@
 		
 		/*Chamada da função para criação do retângulo e quadrado*/
 		Cria_Retangulo(linhas, colunas);
-
+		
 		/*Devolve a cor original da janela de console*/
 		textbackground(BLACK);
 		textcolor(7);
