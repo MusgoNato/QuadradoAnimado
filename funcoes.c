@@ -3,6 +3,7 @@
 	#include "console_v1.5.4.h"
 	#include "funcoes.h"
 	#include <stdlib.h>
+	#include <time.h>
 	#include <windows.h>
 	
 	/*Tecla sa�da do programa*/
@@ -23,10 +24,10 @@
 	#define F10 121
 	
 	/*Teclas para o quadrado*/
-	#define TECLA_PARA_BAIXO
-	#define TECLA_PARA_CIMA
-	#define TECLA_PARA_DIREITA
-	#define TECLA_PARA_ESQUERDA
+	#define TECLA_PARA_BAIXO 40
+	#define TECLA_PARA_CIMA 38
+	#define TECLA_PARA_DIREITA 39
+	#define TECLA_PARA_ESQUERDA 37
 	
 	/*Tecla para mudança da cor do Quadrado*/
 	/*#define ESPAÇO Ñ sei seu código ainda*/
@@ -41,50 +42,19 @@
 	}CORES;*/
 	
 	/*Apaga o Quadrado passando a sua última posição que ele tinha*/
-	void Apaga_Quadrado(int pos_X, int pos_Y, int linhas, int direcao)
+	void Apaga_Quadrado(int pos_X, int pos_Y)
 	{
-		int i;
-		/*"Apaga" o quadrado anterior*/
-		for(i = 0; i < linhas - i; i++)
+		int i, j;
+		
+		/*Apaga a ultima impressão do quadrado*/
+		for(i = 0; i < 3; i++)
 		{
-			/*Meio do Quadrado*/
-			gotoxy(pos_X, pos_Y - i);
-			putchar(32);
-					
-			/*Acima do meio*/ 
-			gotoxy(pos_X, pos_Y + 1 - i);
-			putchar(32);
-					
-			/*Abaixo do meio*/
-			gotoxy(pos_X, pos_Y + 2 - i);
-			putchar(32);
-				
-			/*[0][0] ponto esquerdo*/
-			gotoxy(pos_X - 1, pos_Y - i);
-			putchar(32);
-					
-			/*direita do meio*/
-			gotoxy(pos_X - 1, pos_Y + 1);
-			putchar(32);
-						
-			/*ponta esquerda de baixo do quadrado*/
-			gotoxy(pos_X - 1, pos_Y + 2 - i);
-			putchar(32);
-					
-			/**/
-			gotoxy(pos_X + 1, pos_Y - i);
-			putchar(32);
-					
-			/**/
-			gotoxy(pos_X + 1, pos_Y + 1 - i);
-			putchar(32);
-					
-			/*ponta direita de baixo do quadrado*/
-			gotoxy(pos_X + 1, pos_Y + 2 - i);
-			putchar(32);
-			Sleep(1000/100);
+			for(j = 0; j < 3; j++)
+			{
+				gotoxy(pos_X - 1 + j, pos_Y - 1 + i);
+				putchar(32);
+			}
 		}
-		Quadrado_Invertido(pos_X, pos_Y, linhas, direcao);
 		
 	}
 	
@@ -178,13 +148,19 @@
 		}
 	}
 	
-	/*Cria as bordas do ret�ngulo*/
+	/*Cria as bordas do retângulo*/
 	void Cria_Retangulo(int linhas, int colunas)
 	{
 		int i, j, x, y;
-		/*Tamanho M�ximo da Janela para (x,y)*/
+		int direcao;
+		
+		/*Tamanho Máximo da Janela para (x,y)*/
 		COORD tamMaxJanela;
 		COORD Quadrado;
+		
+		/*Gerando numeros aleatórios para a direção do quadrado*/
+		srand(time(NULL));
+		direcao = rand() % 3;
 		
 		/*Guarda o tamanho maximo da janela do console*/
 		tamMaxJanela = MaxDimensaoJanela();
@@ -221,18 +197,18 @@
 			gotoxy(x + colunas - 1, y + i);
 			putchar(32);
 		}
-		Cria_Quadrado(Quadrado, linhas);
+		Cria_Quadrado(Quadrado, direcao);
 		_setcursortype(_NORMALCURSOR);
-		system("pause");
 		
 		/*Posiciona x e y para o final da linha console*/
 		gotoxy(tamMaxJanela.X, tamMaxJanela.Y);
+		system("pause");
 	}
 		
 	/*Função que irá criar o quadrado central a partir das coordenadas passadas na função Cria_Retangulo();*/
-	void Cria_Quadrado(COORD Quadrado, int linhas)
+	void Cria_Quadrado(COORD Quadrado, int direcao)
 	{
-		int i, direcao = 1;
+		int i, j;
 		int pos_X;
 		int pos_Y;
 		
@@ -242,111 +218,89 @@
 		pos_X = Quadrado.X/2;
 		pos_Y = Quadrado.Y/2;
 		
-		/*Faz o desenho do quadrado na tela enquanto a direcao for 1, caso contrario inverte o sentido do quadrado no final do loop*/
-		while(direcao == 1 || direcao >= linhas){
+		Movimenta_Quadrado(pos_X, pos_Y, direcao);
 		/*Desenha o Quadrado na tela*/
-			for(i = 0; i < linhas - i; i++)
+		for(i = 0; i < 3; i++)
+		{
+			for(j = 0; j < 3; j++)
 			{
-				/*Meio do Quadrado*/
-				gotoxy(pos_X, pos_Y - i);
+				gotoxy(pos_X - 1 + j, pos_Y - 1 + i);
 				putchar(42);
-						
-				/*Acima do meio*/ 
-				gotoxy(pos_X, pos_Y + 1 - i);
-				putchar(42);
-						
-				/*Abaixo do meio*/
-				gotoxy(pos_X, pos_Y + 2 - i);
-				putchar(42);
-					
-				/*[0][0] ponto esquerdo*/
-				gotoxy(pos_X - 1, pos_Y - i);
-				putchar(42);
-						
-				/*direita do meio*/
-				gotoxy(pos_X - 1, pos_Y + 1 - i);
-				putchar(42);
-							
-				/*ponta esquerda de baixo do quadrado*/
-				gotoxy(pos_X - 1, pos_Y + 2 - i);
-				putchar(42);
-						
-				/**/
-				gotoxy(pos_X + 1, pos_Y - i);
-				putchar(42);
-						
-				/**/
-				gotoxy(pos_X + 1, pos_Y + 1 - i);
-				putchar(42);
-						
-				/*ponta direita de baixo do quadrado*/
-				gotoxy(pos_X + 1, pos_Y + 2 - i);
-				putchar(42);
-				Sleep(1000/10);
-				Apaga_Quadrado(pos_X, pos_Y, linhas, direcao);
 			}
 		}
-		
-		/*Inverte a variavel direcao, que é a do quadrado*/
-		direcao *= -1;
-		Quadrado_Invertido(pos_X, pos_Y, linhas, direcao);
 	}
 	
-	/*Movimenta o quadrado a partir da borda tocada*/
-	void Quadrado_Invertido(int pos_X, int pos_Y, int linhas, int direcao)
+	void Movimenta_Quadrado(int pos_X, int pos_Y, int direcao)
 	{
-		int i;
-		while(direcao < 0){
-			for(i = linhas - 1; i < linhas; i--)
+		int i, j;
+		do
+		{
+			/*Para a esquerda*/
+			if(direcao == 0)
 			{
-				/*Meio do Quadrado*/
-				gotoxy(pos_X, pos_Y + i);
-				putchar(42);
-						
-				/*Acima do meio*/ 
-				gotoxy(pos_X, pos_Y - 1 + i);
-				putchar(42);
-						
-				/*Abaixo do meio*/
-				gotoxy(pos_X, pos_Y - 2 + i);
-				putchar(42);
-					
-				/*[0][0] ponto esquerdo*/
-				gotoxy(pos_X + 1, pos_Y + i);
-				putchar(42);
-						
-				/*direita do meio*/
-				gotoxy(pos_X + 1, pos_Y - 1 + i);
-				putchar(42);
-							
-				/*ponta esquerda de baixo do quadrado*/
-				gotoxy(pos_X + 1, pos_Y - 2 + i);
-				putchar(42);
-						
-				/**/
-				gotoxy(pos_X - 1, pos_Y + i);
-				putchar(42);
-						
-				/**/
-				gotoxy(pos_X - 1, pos_Y - 1 + i);
-				putchar(42);
-						
-				/*ponta direita de baixo do quadrado*/
-				gotoxy(pos_X - 1, pos_Y - 2 + i);
-				putchar(42);
-				Sleep(1000/10);
-				Apaga_Quadrado(pos_X, pos_Y, linhas, direcao);
+				for(i = 0; i < 3; i++)
+				{
+					for(j = 0; j < 3; j++)
+					{
+						gotoxy(pos_X - 1 + j - 1, pos_Y - 1 + i);
+						putchar(42);
+					}
+				}
 			}
-		}
-		
+			
+			/*para a direita*/
+			if(direcao == 1)
+			{
+				for(i = 0; i < 3; i++)
+				{
+					for(j = 0; j < 3; j++)
+					{
+						gotoxy(pos_X - 1 + j + 1, pos_Y - 1 + i);
+						putchar(42);
+					}
+				}
+			}
+			
+			/*para cima*/
+			if(direcao == 2)
+			{
+				for(i = 0; i < 3; i++)
+				{
+					for(j = 0; j < 3; j++)
+					{
+						gotoxy(pos_X - 1 + j, pos_Y - 1 + i - 1);
+						putchar(42);
+					}
+				}
+			}
+			
+			/*para baixo*/
+				if(direcao == 3)
+				{
+					for(i = 0; i < 3; i++)
+					{
+						for(j = 0; j < 3; j++)
+						{
+							gotoxy(pos_X - 1 + j - 1, pos_Y - 1 + i + 1);
+							putchar(42);
+						}
+					}
+				}
+		}while(1);	
 	}
 	
-	
-	
-	
-	
-	
-	
+	/*
+
+ imrpime as linhas
+	for(int i = 0; i < 3; ++i)
+ impriem as colunas
+		for(int j = 0; j < 3 ; ++j)
+			{
+				gotoxy(x-1+j,y-1+i);
+			}
+			*/
+				
+
 	
 	
 	
