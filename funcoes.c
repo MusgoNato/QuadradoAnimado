@@ -154,7 +154,7 @@
 	/*Função que irá criar o quadrado central a partir das coordenadas passadas na função Cria_Retangulo();*/
 	void Cria_Quadrado(COORD Quadrado, int direcao)
 	{
-		/*Troca o fundo da janela do console e atribui o meio da janela do console as variaveis*/
+		/*Troca o fundo da janela do console e posiciona no meio o Quadrado a ser criado*/
 		textbackground(BLACK);
 		Quadrado.X = Quadrado.X/2;
 		Quadrado.Y = Quadrado.Y/2;
@@ -169,23 +169,21 @@
 	void Movimenta_Quadrado(COORD Quadrado, int direcao)
 	{
 		int i, j/*, cont = 0*/;
-		/*Para a esquerda*/
+		
+			/*Movimenta Quadrado para esquerda*/
 			if(direcao == 0)
 			{
-				Sleep(100);
 				Quadrado.X -= 1;
-				if(Quadrado.X > 53)
+				for(i = 0; i < 3; i++)
 				{
-					for(i = 0; i < 3; i++)
+					for(j = 0; j < 3; j++)
 					{
-						for(j = 0; j < 3; j++)
-						{
-							gotoxy(Quadrado.X - 1 - j - 1, Quadrado.Y - 1 + i + 1);
-							putchar(42);
-						}
+						gotoxy(Quadrado.X - 1 - j - 1, Quadrado.Y - 1 + i + 1);
+						putchar(42);
 					}
-					Apaga_Quadrado(Quadrado, direcao);
 				}
+				Sleep(100);
+				Apaga_Quadrado(Quadrado, direcao);
 			}
 			
 			/*para a direita
