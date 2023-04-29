@@ -213,18 +213,6 @@
 				*/
 		}while(1);
 	}
-	
-	/*
-
- imrpime as linhas
-	for(int i = 0; i < 3; ++i)
- impriem as colunas
-		for(int j = 0; j < 3 ; ++j)
-			{
-				gotoxy(x-1+j,y-1+i);
-			}
-			*/
-				
 
 	
 	
