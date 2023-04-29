@@ -38,7 +38,7 @@
 	/*typedef struct _Cores
 	{
 		Cores utilizadas para troca do ret�ngulo e quadrado
-		
+			
 	}CORES;*/
 	
 	/*Apaga o Quadrado passando a sua última posição que ele tinha*/
@@ -98,7 +98,7 @@
 	void Cria_Retangulo(int linhas, int colunas)
 	{
 		int i, j, x, y;
-		int direcao;
+		int direcao = 0;
 		
 		/*Tamanho Máximo da Janela para (x,y)*/
 		COORD tamMaxJanela;
@@ -106,7 +106,7 @@
 		
 		/*Gerando numeros aleatórios para a direção do quadrado*/
 		srand(time(NULL));
-		direcao = rand() % 4;
+		/*direcao = rand() % 4;*/
 		
 		
 		/*Guarda o tamanho maximo da janela do console*/
@@ -175,23 +175,26 @@
 			/*Para a esquerda*/
 			if(direcao == 0)
 			{
-				Sleep(1000);
+				Sleep(100);
 				pos_X -= 1;
-				for(i = 0; i < 3; i++)
+				if(pos_X > 53)
 				{
-					for(j = 0; j < 3; j++)
+					for(i = 0; i < 3; i++)
 					{
-						gotoxy(pos_X - 1 - j - 1, pos_Y - 1 + i + 1);
-						putchar(42);
+						for(j = 0; j < 3; j++)
+						{
+							gotoxy(pos_X - 1 - j - 1, pos_Y - 1 + i + 1);
+							putchar(42);
+						}
 					}
+					Apaga_Quadrado(pos_X, pos_Y, direcao);
 				}
-				Apaga_Quadrado(pos_X, pos_Y, direcao);
 			}
 			
 			/*para a direita*/
 			if(direcao == 1)
 			{
-				Sleep(1000);
+				Sleep(100);
 				pos_X += 1;
 				for(i = 0; i < 3; i++)
 				{
@@ -207,7 +210,7 @@
 			/*para cima*/
 			if(direcao == 2)
 			{
-				Sleep(1000);
+				Sleep(100);
 				pos_Y -= 1;
 				for(i = 0; i < 3; i++)
 				{
@@ -223,7 +226,7 @@
 			/*para baixo*/
 				if(direcao == 3)
 				{
-					Sleep(1000);
+					Sleep(100);
 					pos_Y += 1;
 					for(i = 0; i < 3; i++)
 					{
