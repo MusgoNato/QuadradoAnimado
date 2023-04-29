@@ -1,0 +1,1 @@
+cmd cd C:\Users\TEMP.AD.000\Documents\QuadradoAnimado

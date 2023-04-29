@@ -152,7 +152,7 @@
 	void Cria_Retangulo(int linhas, int colunas)
 	{
 		int i, j, x, y;
-		int direcao;
+		int direcao = 0;
 		
 		/*Tamanho Máximo da Janela para (x,y)*/
 		COORD tamMaxJanela;
@@ -160,7 +160,8 @@
 		
 		/*Gerando numeros aleatórios para a direção do quadrado*/
 		srand(time(NULL));
-		direcao = rand() % 3;
+		/*direcao = rand() % 4;*/
+		
 		
 		/*Guarda o tamanho maximo da janela do console*/
 		tamMaxJanela = MaxDimensaoJanela();
@@ -218,23 +219,25 @@
 		pos_X = Quadrado.X/2;
 		pos_Y = Quadrado.Y/2;
 		
-		Movimenta_Quadrado(pos_X, pos_Y, direcao);
-		/*Desenha o Quadrado na tela*/
 		for(i = 0; i < 3; i++)
 		{
 			for(j = 0; j < 3; j++)
 			{
-				gotoxy(pos_X - 1 + j, pos_Y - 1 + i);
-				putchar(42);
-			}
+				gotoxy(pos_X - 1 - j, pos_Y - 1 + i);
+			}	
 		}
+		/*Chamada da função que cria e movimenta o quadrado para uns dos lados*/
+		Movimenta_Quadrado(pos_X, pos_Y, direcao);
 	}
 	
 	void Movimenta_Quadrado(int pos_X, int pos_Y, int direcao)
 	{
 		int i, j;
+		/*Laço infinito*/
 		do
 		{
+			Sleep(1000/10);
+			
 			/*Para a esquerda*/
 			if(direcao == 0)
 			{
@@ -242,12 +245,13 @@
 				{
 					for(j = 0; j < 3; j++)
 					{
-						gotoxy(pos_X - 1 + j - 1, pos_Y - 1 + i);
+						gotoxy(pos_X - 1 - j - 1, pos_Y - 1 + i);
 						putchar(42);
+						Sleep(100);
 					}
 				}
 			}
-			
+		}while(1);
 			/*para a direita*/
 			if(direcao == 1)
 			{
@@ -259,6 +263,7 @@
 						putchar(42);
 					}
 				}
+				Apaga_Quadrado(pos_X, pos_Y);
 			}
 			
 			/*para cima*/
@@ -272,6 +277,7 @@
 						putchar(42);
 					}
 				}
+				Apaga_Quadrado(pos_X, pos_Y);
 			}
 			
 			/*para baixo*/
@@ -281,12 +287,12 @@
 					{
 						for(j = 0; j < 3; j++)
 						{
-							gotoxy(pos_X - 1 + j - 1, pos_Y - 1 + i + 1);
+							gotoxy(pos_X - 1 + j, pos_Y - 1 + i + 1);
 							putchar(42);
 						}
 					}
+					Apaga_Quadrado(pos_X, pos_Y);
 				}
-		}while(1);	
 	}
 	
 	/*
