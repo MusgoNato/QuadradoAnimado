@@ -98,7 +98,7 @@
 	void Cria_Retangulo(int linhas, int colunas)
 	{
 		int i, j, x, y;
-		int direcao = 3;
+		int direcao;
 		
 		/*Tamanho Máximo da Janela para (x,y)*/
 		COORD tamMaxJanela;
@@ -106,7 +106,7 @@
 		
 		/*Gerando numeros aleatórios para a direção do quadrado*/
 		srand(time(NULL));
-		/*direcao = rand() % 4;*/
+		direcao = rand() % 4;
 		
 		
 		/*Guarda o tamanho maximo da janela do console*/
