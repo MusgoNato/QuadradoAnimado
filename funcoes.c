@@ -46,7 +46,7 @@
 	{
 		int i, j;
 		
-		/*Apaga a ultima impressão do quadrado*/
+		/*Apaga a ultima impressão do quadrado em um dos 4 sentidos*/
 		if(direcao == 0)
 		{
 			for(i = 0; i < 3; i++)
@@ -59,13 +59,25 @@
 			}
 		}
 		
+		if(direcao == 1)
+		{
+			for(i = 0; i < 3; i++)
+			{
+				for(j = 0; j < 3; j++)
+				{
+					gotoxy(pos_X - 1 - j, pos_Y - 1 + i + 1);
+					putchar(32);
+				}
+			}
+		}
+		
 	}
 	
 	/*Cria as bordas do retângulo*/
 	void Cria_Retangulo(int linhas, int colunas)
 	{
 		int i, j, x, y;
-		int direcao = 0;
+		int direcao = 1;
 		
 		/*Tamanho Máximo da Janela para (x,y)*/
 		COORD tamMaxJanela;
@@ -121,12 +133,10 @@
 	/*Função que irá criar o quadrado central a partir das coordenadas passadas na função Cria_Retangulo();*/
 	void Cria_Quadrado(COORD Quadrado, int direcao)
 	{
-		int pos_X;
-		int pos_Y;
+		int pos_X, pos_Y;
 		
-		/*Troca o fundo da janela do console*/
+		/*Troca o fundo da janela do console e atribui o meio da janela do console as variaveis*/
 		textbackground(BLACK);
-		
 		pos_X = Quadrado.X/2;
 		pos_Y = Quadrado.Y/2;
 		
@@ -160,18 +170,20 @@
 			/*para a direita*/
 			if(direcao == 1)
 			{
+				Sleep(1000);
+				pos_X += 1;
 				for(i = 0; i < 3; i++)
 				{
 					for(j = 0; j < 3; j++)
 					{
-						gotoxy(pos_X - 1 + j + 1, pos_Y - 1 + i);
+						gotoxy(pos_X - 1 + j + 1, pos_Y - 1 + i + 1);
 						putchar(42);
 					}
 				}
 				Apaga_Quadrado(pos_X, pos_Y, direcao);
 			}
 			
-			/*para cima*/
+			/*para cima
 			if(direcao == 2)
 			{
 				for(i = 0; i < 3; i++)
@@ -185,7 +197,7 @@
 				Apaga_Quadrado(pos_X, pos_Y, direcao);
 			}
 			
-			/*para baixo*/
+			para baixo
 				if(direcao == 3)
 				{
 					for(i = 0; i < 3; i++)
@@ -198,6 +210,7 @@
 					}
 					Apaga_Quadrado(pos_X, pos_Y, direcao);
 				}
+				*/
 		}while(1);
 	}
 	
