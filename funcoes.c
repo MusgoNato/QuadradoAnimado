@@ -42,110 +42,23 @@
 	}CORES;*/
 	
 	/*Apaga o Quadrado passando a sua última posição que ele tinha*/
-	void Apaga_Quadrado(int pos_X, int pos_Y)
+	void Apaga_Quadrado(int pos_X, int pos_Y, int direcao)
 	{
 		int i, j;
 		
 		/*Apaga a ultima impressão do quadrado*/
-		for(i = 0; i < 3; i++)
+		if(direcao == 0)
 		{
-			for(j = 0; j < 3; j++)
+			for(i = 0; i < 3; i++)
 			{
-				gotoxy(pos_X - 1 + j, pos_Y - 1 + i);
-				putchar(32);
+				for(j = 0; j < 3; j++)
+				{
+					gotoxy(pos_X - 1 + j, pos_Y - 1 + i + 1);
+					putchar(32);
+				}
 			}
 		}
 		
-	}
-	
-	/*Essa função nao ta pronta e nao interfere no programa*/
-	void Aumenta_Retangulo()
-	{
-		/*Limites
-		Menor linha: 1;
-		Maior linha: 40;
-		Menor coluna: 1;
-		Maior coluna: 100;
-		Menor largura da �rea: 3 colunas*/
-		
-		char tecla;
-		int cont_linhas_cima = 0;
-		int cont_linhas_baixo = 0;
-		int cont_coluna_esq = 0;
-		int cont_coluna_dir = 0;
-		tecla = getch();
-		
-		switch(tecla)
-		{
-			/*ESC -> Encerra o programa*/
-			case 27:
-			{
-				exit(0);
-				break;
-			}
-			/*F3 -> Aumenta a �rea esquerda do ret�ngulo*/
-			case 114: 
-			{
-				cont_coluna_esq++;
-				Cria_Retangulo(cont_linhas_cima, cont_coluna_esq);
-				break;
-			}
-			/*F4 -> Diminui a �rea esquerda do ret�ngulo*/
-			case 115:
-			{
-				cont_coluna_esq--;
-				Cria_Retangulo(cont_linhas_cima, cont_coluna_esq);
-				break;
-			}
-			/*F5 -> Aumenta a �rea direita do ret�ngulo*/
-			case 116:
-			{
-				cont_coluna_dir++;
-				Cria_Retangulo(cont_linhas_cima, cont_coluna_dir);
-				break;
-			}
-			/*F6 -> Diminui a �rea direita do ret�ngulo*/
-			case 117:
-			{
-				cont_coluna_dir--;
-				Cria_Retangulo(cont_linhas_cima, cont_coluna_dir);
-				break;
-			}
-			/*F7 -> Aumenta a �rea da borda horizontal superior*/
-			case 118:
-			{
-				cont_linhas_cima++;
-				Cria_Retangulo(cont_linhas_cima, cont_coluna_esq);
-				break;
-			}
-			/*F8 -> Diminui a �rea da borda horizontal superior*/
-			case 119:
-			{
-				cont_linhas_cima--;
-				Cria_Retangulo(cont_linhas_cima, cont_coluna_esq);
-				break;
-			}
-			/*F9 -> Aumenta a �rea da borda horizontal inferior*/
-			case 120:
-			{
-				cont_linhas_baixo++;
-				Cria_Retangulo(cont_linhas_baixo, cont_coluna_dir);
-				break;
-			}
-			/*F10 -> Diminui a �rea da borda horizontal inferior*/
-			case 121:
-			{
-				cont_linhas_baixo--;
-				Cria_Retangulo(cont_linhas_baixo, cont_coluna_dir);
-				break;
-			}
-			/*Caso o usu�rio digite qualquer outra tecla*/
-			default:
-			{
-				Aumenta_Retangulo();
-				break;
-			}
-		}
 	}
 	
 	/*Cria as bordas do retângulo*/
@@ -203,13 +116,11 @@
 		
 		/*Posiciona x e y para o final da linha console*/
 		gotoxy(tamMaxJanela.X, tamMaxJanela.Y);
-		system("pause");
 	}
 		
 	/*Função que irá criar o quadrado central a partir das coordenadas passadas na função Cria_Retangulo();*/
 	void Cria_Quadrado(COORD Quadrado, int direcao)
 	{
-		int i, j;
 		int pos_X;
 		int pos_Y;
 		
@@ -219,39 +130,33 @@
 		pos_X = Quadrado.X/2;
 		pos_Y = Quadrado.Y/2;
 		
-		for(i = 0; i < 3; i++)
-		{
-			for(j = 0; j < 3; j++)
-			{
-				gotoxy(pos_X - 1 - j, pos_Y - 1 + i);
-			}	
-		}
 		/*Chamada da função que cria e movimenta o quadrado para uns dos lados*/
 		Movimenta_Quadrado(pos_X, pos_Y, direcao);
 	}
 	
 	void Movimenta_Quadrado(int pos_X, int pos_Y, int direcao)
 	{
-		int i, j;
+		int i, j/*, cont = 0*/;
+		
 		/*Laço infinito*/
 		do
 		{
-			Sleep(1000/10);
-			
 			/*Para a esquerda*/
 			if(direcao == 0)
 			{
+				Sleep(1000);
+				pos_X -= 1;
 				for(i = 0; i < 3; i++)
 				{
 					for(j = 0; j < 3; j++)
 					{
-						gotoxy(pos_X - 1 - j - 1, pos_Y - 1 + i);
+						gotoxy(pos_X - 1 - j - 1, pos_Y - 1 + i + 1);
 						putchar(42);
-						Sleep(100);
 					}
 				}
+				Apaga_Quadrado(pos_X, pos_Y, direcao);
 			}
-		}while(1);
+			
 			/*para a direita*/
 			if(direcao == 1)
 			{
@@ -263,7 +168,7 @@
 						putchar(42);
 					}
 				}
-				Apaga_Quadrado(pos_X, pos_Y);
+				Apaga_Quadrado(pos_X, pos_Y, direcao);
 			}
 			
 			/*para cima*/
@@ -277,7 +182,7 @@
 						putchar(42);
 					}
 				}
-				Apaga_Quadrado(pos_X, pos_Y);
+				Apaga_Quadrado(pos_X, pos_Y, direcao);
 			}
 			
 			/*para baixo*/
@@ -291,8 +196,9 @@
 							putchar(42);
 						}
 					}
-					Apaga_Quadrado(pos_X, pos_Y);
+					Apaga_Quadrado(pos_X, pos_Y, direcao);
 				}
+		}while(1);
 	}
 	
 	/*
