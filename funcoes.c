@@ -70,14 +70,35 @@
 				}
 			}
 		}
-		
+		if(direcao == 2)
+		{
+			for(i = 0; i < 3; i++)
+			{
+				for(j = 0; j < 3; j++)
+				{
+					gotoxy(pos_X - 1 + j, pos_Y - 1 + i + 3);
+					putchar(32);
+				}
+			}
+		}
+		if(direcao == 3)
+		{
+			for(i = 0; i < 3; i++)
+			{
+				for(j = 0; j < 3; j++)
+				{
+					gotoxy(pos_X - 1 + j, pos_Y - 1 + i - 3);
+					putchar(32);
+				}
+			}
+		}
 	}
 	
 	/*Cria as bordas do retângulo*/
 	void Cria_Retangulo(int linhas, int colunas)
 	{
 		int i, j, x, y;
-		int direcao = 1;
+		int direcao = 3;
 		
 		/*Tamanho Máximo da Janela para (x,y)*/
 		COORD tamMaxJanela;
@@ -183,34 +204,37 @@
 				Apaga_Quadrado(pos_X, pos_Y, direcao);
 			}
 			
-			/*para cima
+			/*para cima*/
 			if(direcao == 2)
 			{
+				Sleep(1000);
+				pos_Y -= 1;
 				for(i = 0; i < 3; i++)
 				{
 					for(j = 0; j < 3; j++)
 					{
-						gotoxy(pos_X - 1 + j, pos_Y - 1 + i - 1);
+						gotoxy(pos_X - 1 + j, pos_Y - 1 + i);
 						putchar(42);
 					}
 				}
 				Apaga_Quadrado(pos_X, pos_Y, direcao);
 			}
 			
-			para baixo
+			/*para baixo*/
 				if(direcao == 3)
 				{
+					Sleep(1000);
+					pos_Y += 1;
 					for(i = 0; i < 3; i++)
 					{
 						for(j = 0; j < 3; j++)
 						{
-							gotoxy(pos_X - 1 + j, pos_Y - 1 + i + 1);
+							gotoxy(pos_X - 1 + j, pos_Y - 1 + i);
 							putchar(42);
 						}
 					}
 					Apaga_Quadrado(pos_X, pos_Y, direcao);
 				}
-				*/
 		}while(1);
 	}
 
