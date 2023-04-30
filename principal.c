@@ -2,7 +2,7 @@
 	Descrição: O programa irá criar um retangulo com suas respectivas bordas e um quadrado
 	Programador: Hugo Josue Lema Das Neves
 	RGM: 47159
-	Data da última modificação: 24/04/2023*/
+	Data da última modificação: 29/04/2023*/
 
 	#include <stdlib.h> /* system() */
 	#include <string.h> /* strlen() */

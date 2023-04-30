@@ -8,6 +8,10 @@
 	
 	/*Tecla sa�da do programa*/
 	#define ESC 27
+	#define ENTER 13
+	#define BACKSPACE 8
+	#define ESPACO 32
+	#define TAB 9
 	
 	/*Teclas para velocidade do quadrado*/
 	#define F1 112
@@ -22,24 +26,19 @@
 	#define F8 119
 	#define F9 120
 	#define F10 121
+
 	
 	/*Teclas para o quadrado*/
-	#define TECLA_PARA_BAIXO 40
-	#define TECLA_PARA_CIMA 38
-	#define TECLA_PARA_DIREITA 39
-	#define TECLA_PARA_ESQUERDA 37
+	#define SETA_PARA_ESQUERDA 37
+	#define SETA_PARA_CIMA 38
+	#define SETA_PARA_DIREITA 39
+	#define SETA_PARA_BAIXO 40
 	
 	/*Tecla para mudança da cor do Quadrado*/
-	/*#define ESPAÇO Ñ sei seu código ainda*/
+	#define ESPACO 32
 	
 	/*Tecla para mudança da cor do retângulo*/
 	#define TAB 9
-	
-	/*typedef struct _Cores
-	{
-		Cores utilizadas para troca do ret�ngulo e quadrado
-			
-	}CORES;*/
 	
 	/*Apaga o Quadrado passando a sua última posição que ele tinha*/
 	void Apaga_Quadrado(COORD *Quadrado, int direcao)
@@ -244,7 +243,7 @@
 					gotoxy(Quadrado->X - 1 + j, Quadrado->Y - 1 + i + 2);
 					putchar(42);
 				}
-			}
+			}	
 			Sleep(100);
 			Apaga_Quadrado(Quadrado, direcao);
 		}
@@ -265,6 +264,8 @@
 			Apaga_Quadrado(Quadrado, direcao);
 		}
 	}
+	
+	/*talvez a criação de mais uma funcao para as teclas do teclado*/
 
 	
 	
