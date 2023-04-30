@@ -41,13 +41,13 @@
 	#define TAB 9
 	
 	/*Apaga o Quadrado passando a sua última posição que ele tinha*/
-	void Apaga_Quadrado(COORD *Quadrado, DIRECAO *direcao)
+	void Apaga_Quadrado(COORD *Quadrado, int sentido)
 	{
 		int i, j;
 		
 		/*Apaga a ultima impressão do quadrado em um dos 4 sentidos*/
 		/*Esquerda*/
-		if(direcao->sentido == 0)
+		if(sentido == 0)
 		{
 			for(i = 0; i < 3; i++)
 			{
@@ -60,7 +60,7 @@
 		}
 		
 		/*Direita*/
-		if(direcao->sentido == 1)
+		if(sentido == 1)
 		{
 			for(i = 0; i < 3; i++)
 			{
@@ -73,7 +73,7 @@
 		}
 		
 		/*Cima*/
-		if(direcao->sentido == 2)
+		if(sentido == 2)
 		{
 			for(i = 0; i < 3; i++)
 			{
@@ -86,7 +86,7 @@
 		}
 		
 		/*Baixo*/
-		if(direcao->sentido == 3)
+		if(sentido == 3)
 		{
 			for(i = 0; i < 3; i++)
 			{
@@ -103,16 +103,15 @@
 	void Cria_Retangulo(int linhas, int colunas)
 	{
 		int i, j, x, y;
+		int sentido;
 		
 		/*Tamanho Máximo da Janela para (x,y)*/
 		COORD tamMaxJanela;
 		COORD Quadrado;
-		DIRECAO *direcao;
 		
 		/*Gerando numeros aleatórios para a direção do quadrado*/
 		srand(time(NULL));
-		direcao->sentido = rand() % 3;
-		
+		sentido = rand() % 3;
 		
 		/*Guarda o tamanho maximo da janela do console*/
 		tamMaxJanela = MaxDimensaoJanela();
@@ -156,33 +155,33 @@
 		/*Laço infinito*/
 		do
 		{
-			Ler_Teclado(&Quadrado, direcao);
+			Ler_Teclado(&Quadrado, sentido);
 			/*Limites para as bordas da direira e esquerda*/
 			/*Direita*/
 			if(Quadrado.X < x + 4)
 			{
-				direcao->sentido = 1;
+				sentido = 1;
 			}
 			/*Esquerda*/
 			if(Quadrado.X > x + colunas - 3)
 			{
-				direcao->sentido = 0;
+				sentido = 0;
 			}
 			
 			/*Limites para as bordas de cima e de baixo do retângulo*/
 			/*Baixo*/
 			if(Quadrado.Y < y + 3)
 			{
-				direcao->sentido = 3;
+				sentido = 3;
 			}
 			/*Cima*/
 			if(Quadrado.Y > y + linhas - y)
 			{
-				direcao->sentido = 2;
+				sentido = 2;
 			}
 
 			/*Chamada da função que cria e movimenta o quadrado para uns dos lados*/
-			Movimenta_Quadrado(&Quadrado, direcao);
+			Movimenta_Quadrado(&Quadrado, sentido);
 		}while(1);
 		/*Posiciona x e y para o final da linha console*/
 		gotoxy(tamMaxJanela.X, tamMaxJanela.Y);
@@ -198,12 +197,12 @@
 	}
 	
 	/*Cria e movimenta para um dos 4 sentidos possíveis o quadrado*/
-	void Movimenta_Quadrado(COORD *Quadrado, DIRECAO *direcao)
+	void Movimenta_Quadrado(COORD *Quadrado, int sentido)
 	{
 		int i, j;
 		
 		/*Movimenta Quadrado para esquerda*/
-		if(direcao->sentido == 0)
+		if(sentido == 0)
 		{
 			Quadrado->X -= 1;
 			for(i = 0; i < 3; i++)
@@ -215,11 +214,11 @@
 				}
 			}
 			Sleep(100);
-			Apaga_Quadrado(Quadrado, direcao);
+			Apaga_Quadrado(Quadrado, sentido);
 		}
 			
 		/*para a direita*/
-		if(direcao->sentido == 1)
+		if(sentido == 1)
 		{
 			Quadrado->X += 1;
 			for(i = 0; i < 3; i++)
@@ -231,11 +230,11 @@
 				}
 			}
 			Sleep(100);
-			Apaga_Quadrado(Quadrado, direcao);
+			Apaga_Quadrado(Quadrado, sentido);
 		}
 			
 		/*para cima*/
-		if(direcao->sentido == 2)
+		if(sentido == 2)
 		{
 			Quadrado->Y -= 1;
 			for(i = 0; i < 3; i++)
@@ -247,11 +246,11 @@
 				}
 			}	
 			Sleep(100);
-			Apaga_Quadrado(Quadrado, direcao);
+			Apaga_Quadrado(Quadrado, sentido);
 		}
 			
 		/*para baixo*/		
-		if(direcao->sentido == 3)
+		if(sentido == 3)
 		{
 			Quadrado->Y += 1;
 			for(i = 0; i < 3; i++)
@@ -263,60 +262,42 @@
 				}
 			}
 			Sleep(100);
-			Apaga_Quadrado(Quadrado, direcao);
+			Apaga_Quadrado(Quadrado, sentido);
 		}
 	}
 	
 	/*Função que realiza as leituras das teclas lidas do teclado*/
-	void Ler_Teclado(COORD *Quadrado, DIRECAO *direcao)
+	void Ler_Teclado(COORD *Quadrado, int sentido)
 	{
 		/*Criacao de uma variavel que armazenara as teclas lidas do teclado do tipo Evento*/
 		EVENTO leitura_teclado;
+		sentido = sentido;
 		
 		/*Verifica se houve um evento ocorrido do teclado*/
 		do
 		{
-		if(hit(KEYBOARD_HIT))
-		{
-			leitura_teclado = Evento();
-			
-			if(leitura_teclado.tipo_evento & KEY_EVENT)
+			if(hit(KEYBOARD_HIT))
 			{
-				if(leitura_teclado.teclado.status_tecla == LIBERADA)
+				leitura_teclado = Evento();
+				
+				if(leitura_teclado.tipo_evento & KEY_EVENT)
 				{
-					switch(leitura_teclado.teclado.codigo_tecla)
+					if(leitura_teclado.teclado.status_tecla == LIBERADA)
 					{
-						/*Verificações que irão movimentar o quadrado de acordo com as teclas que o usuário pressionar*/
-						case SETA_PARA_ESQUERDA:
+						switch(leitura_teclado.teclado.codigo_tecla)
 						{
-							direcao->sentido = 0;
-							Quadrado->X -= 1;
-							break;
-						}	
-						
-						case SETA_PARA_DIREITA:
-						{
-							direcao->sentido = 1;
-							Quadrado->X += 1;
-							break;
+							/*Verificações que irão movimentar o quadrado de acordo com as teclas que o usuário pressionar*/
+							case SETA_PARA_ESQUERDA:
+							{
+								sentido = 0;
+								Quadrado->X -= 1;
+								break;
+							}	
+							
 						}
-						case SETA_PARA_CIMA:
-						{
-							direcao->sentido = 2;
-							Quadrado->Y -= 1;
-							break;
-						}
-						case SETA_PARA_BAIXO:
-						{
-							direcao->sentido = 3;
-							Quadrado->Y += 1;
-							break;
-						}
-						
 					}
 				}
 			}
-		}
 		}while(leitura_teclado.teclado.codigo_tecla == ESC);
 	}
 	
