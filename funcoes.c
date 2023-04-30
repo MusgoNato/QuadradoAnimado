@@ -70,18 +70,19 @@
 				}
 			}
 		}
-		/*
+		
 		if(direcao == 2)
 		{
 			for(i = 0; i < 3; i++)
 			{
 				for(j = 0; j < 3; j++)
 				{
-					gotoxy(pos_X - 1 + j, pos_Y - 1 + i + 3);
+					gotoxy(Quadrado->X - 1 + j, Quadrado->Y - 1 + i + 3);
 					putchar(32);
 				}
 			}
 		}
+		/*
 		if(direcao == 3)
 		{
 			for(i = 0; i < 3; i++)
@@ -152,6 +153,7 @@
 		/*Laço infinito*/
 		do
 		{
+			/*Limites para as bordas da direira e esquerda*/
 			if(Quadrado.X < x + 4)
 			{
 				direcao = 1;
@@ -159,6 +161,12 @@
 			if(Quadrado.X > x + colunas - 3)
 			{
 				direcao = 0;
+			}
+			
+			/*Limites para as bordas de cima e de baixo do retângulo*/
+			if(Quadrado.Y > y + 654)
+			{
+				direcao = 2;
 			}
 			/*Chamada da função que cria e movimenta o quadrado para uns dos lados*/
 			Movimenta_Quadrado(&Quadrado, direcao);
@@ -213,23 +221,23 @@
 				Apaga_Quadrado(Quadrado, direcao);
 			}
 			
-			/*para cima
+			/*para cima*/
 			if(direcao == 2)
 			{
-				Sleep(100);
-				pos_Y -= 1;
+				Quadrado->Y -= 1;
 				for(i = 0; i < 3; i++)
 				{
 					for(j = 0; j < 3; j++)
 					{
-						gotoxy(pos_X - 1 + j, pos_Y - 1 + i);
+						gotoxy(Quadrado->X - 1 + j, Quadrado->Y - 1 + i + 1);
 						putchar(42);
 					}
 				}
-				Apaga_Quadrado(pos_X, pos_Y, direcao);
+				Sleep(100);
+				Apaga_Quadrado(Quadrado, direcao);
 			}
 			
-			para baixo
+			/*para baixo
 				if(direcao == 3)
 				{
 					Sleep(100);
