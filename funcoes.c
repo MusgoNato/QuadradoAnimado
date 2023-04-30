@@ -259,7 +259,6 @@
 				{
 					gotoxy(Quadrado->X - 1 + j, Quadrado->Y - 1 + i - 1);
 					putchar(42);
-					printf("+");
 				}
 			}
 			Sleep(100);

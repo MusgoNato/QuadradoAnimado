@@ -1,8 +1,12 @@
 	/*Programa: Quadrado Animado
-	Descrição: O programa irá criar um retangulo com suas respectivas bordas e um quadrado
+	Descrição: O programa realiza a criação de um retângulo e um quadrado ao meio dele,	onde o usuário terá a possibilidade de 
+	locomover o quadrado nas direçôes para cima, para baixo, para a esquerda e para a direita. 
+	Além disso, poderá aumentar a velocidade do quadrado, trocar a cor dele e a do retângulo,
+	as informaçôes do que ocorre no programa será impresso no canto inferior da janela do console.
+	
 	Programador: Hugo Josue Lema Das Neves
 	RGM: 47159
-	Data da última modificação: 29/04/2023*/
+	Data da última modificação: 30/04/2023*/
 
 	#include <stdlib.h> /* system() */
 	#include <string.h> /* strlen() */
