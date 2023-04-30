@@ -47,6 +47,7 @@
 		int i, j;
 		
 		/*Apaga a ultima impressão do quadrado em um dos 4 sentidos*/
+		/*Esquerda*/
 		if(direcao == 0)
 		{
 			for(i = 0; i < 3; i++)
@@ -59,6 +60,7 @@
 			}
 		}
 		
+		/*Direita*/
 		if(direcao == 1)
 		{
 			for(i = 0; i < 3; i++)
@@ -71,6 +73,7 @@
 			}
 		}
 		
+		/*Cima*/
 		if(direcao == 2)
 		{
 			for(i = 0; i < 3; i++)
@@ -82,18 +85,19 @@
 				}
 			}
 		}
-		/*
+		
+		/*Baixo*/
 		if(direcao == 3)
 		{
 			for(i = 0; i < 3; i++)
 			{
 				for(j = 0; j < 3; j++)
 				{
-					gotoxy(pos_X - 1 + j, pos_Y - 1 + i - 3);
+					gotoxy(Quadrado->X - 1 + j, Quadrado->Y - 1 + i - 3);
 					putchar(32);
 				}
 			}
-		}*/
+		}
 	}
 	
 	/*Cria as bordas do retângulo*/
@@ -162,9 +166,12 @@
 			{
 				direcao = 0;
 			}
-			
 			/*Limites para as bordas de cima e de baixo do retângulo*/
-			if(Quadrado.Y > y + 654)
+			if(Quadrado.Y < y)
+			{
+				direcao = 3;
+			}
+			if(Quadrado.Y > y + linhas)
 			{
 				direcao = 2;
 			}
@@ -179,79 +186,80 @@
 	/*Função que irá criar o quadrado central a partir das coordenadas passadas na função Cria_Retangulo();*/
 	void Cria_Quadrado(COORD *Quadrado)
 	{
-		/*Troca o fundo da janela do console e posiciona no meio do Quadrado a ser criado*/
+		/*Troca o fundo da janela do console e posiciona no meio do Quadrado à ser criado*/
 		textbackground(BLACK);
 		Quadrado->X = Quadrado->X/2;
 		Quadrado->Y = Quadrado->Y/2;
 	}
 	
+	/*Cria e movimenta para um dos 4 sentidos possíveis o quadrado*/
 	void Movimenta_Quadrado(COORD *Quadrado, int direcao)
 	{
-		int i, j/*, cont = 0*/;
+		int i, j;
 		
-			/*Movimenta Quadrado para esquerda*/
-			if(direcao == 0)
+		/*Movimenta Quadrado para esquerda*/
+		if(direcao == 0)
+		{
+			Quadrado->X -= 1;
+			for(i = 0; i < 3; i++)
 			{
-				Quadrado->X -= 1;
-				for(i = 0; i < 3; i++)
+				for(j = 0; j < 3; j++)
 				{
-					for(j = 0; j < 3; j++)
-					{
-						gotoxy(Quadrado->X - 1 - j + 1, Quadrado->Y - 1 + i + 1);
-						putchar(42);
-					}
+					gotoxy(Quadrado->X - 1 - j + 1, Quadrado->Y - 1 + i + 1);
+					putchar(42);
 				}
-				Sleep(100);
-				Apaga_Quadrado(Quadrado, direcao);
 			}
+			Sleep(100);
+			Apaga_Quadrado(Quadrado, direcao);
+		}
 			
-			/*para a direita*/
-			if(direcao == 1)
+		/*para a direita*/
+		if(direcao == 1)
+		{
+			Quadrado->X += 1;
+			for(i = 0; i < 3; i++)
 			{
-				Quadrado->X += 1;
-				for(i = 0; i < 3; i++)
+				for(j = 0; j < 3; j++)
 				{
-					for(j = 0; j < 3; j++)
-					{
-						gotoxy(Quadrado->X - 1 + j - 1, Quadrado->Y - 1 + i + 1);
-						putchar(42);
-					}
+					gotoxy(Quadrado->X - 1 + j - 1, Quadrado->Y - 1 + i + 1);
+					putchar(42);
 				}
-				Sleep(100);
-				Apaga_Quadrado(Quadrado, direcao);
 			}
+			Sleep(100);
+			Apaga_Quadrado(Quadrado, direcao);
+		}
 			
-			/*para cima*/
-			if(direcao == 2)
+		/*para cima*/
+		if(direcao == 2)
+		{
+			Quadrado->Y -= 1;
+			for(i = 0; i < 3; i++)
 			{
-				Quadrado->Y -= 1;
-				for(i = 0; i < 3; i++)
+				for(j = 0; j < 3; j++)
 				{
-					for(j = 0; j < 3; j++)
-					{
-						gotoxy(Quadrado->X - 1 + j, Quadrado->Y - 1 + i + 1);
-						putchar(42);
-					}
+					gotoxy(Quadrado->X - 1 + j, Quadrado->Y - 1 + i + 2);
+					putchar(42);
 				}
-				Sleep(100);
-				Apaga_Quadrado(Quadrado, direcao);
 			}
+			Sleep(100);
+			Apaga_Quadrado(Quadrado, direcao);
+		}
 			
-			/*para baixo
-				if(direcao == 3)
+		/*para baixo*/		
+		if(direcao == 3)
+		{
+			Quadrado->Y += 1;
+			for(i = 0; i < 3; i++)
+			{
+				for(j = 0; j < 3; j++)
 				{
-					Sleep(100);
-					pos_Y += 1;
-					for(i = 0; i < 3; i++)
-					{
-						for(j = 0; j < 3; j++)
-						{
-							gotoxy(pos_X - 1 + j, pos_Y - 1 + i);
-							putchar(42);
-						}
-					}
-					Apaga_Quadrado(pos_X, pos_Y, direcao);
-				}*/
+					gotoxy(Quadrado->X - 1 + j, Quadrado->Y - 1 + i + 1);
+					putchar(42);
+				}
+			}
+			Sleep(100);
+			Apaga_Quadrado(Quadrado, direcao);
+		}
 	}
 
 	
