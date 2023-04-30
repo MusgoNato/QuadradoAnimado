@@ -175,7 +175,7 @@
 				sentido = 3;
 			}
 			/*Cima*/
-			if(Quadrado.Y > y + linhas - y)
+			if(Quadrado.Y >= y + linhas - 4)
 			{
 				sentido = 2;
 			}
@@ -213,7 +213,7 @@
 					putchar(42);
 				}
 			}
-			Sleep(100);
+			Sleep(1000);
 			Apaga_Quadrado(Quadrado, sentido);
 		}
 			
