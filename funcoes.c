@@ -271,7 +271,6 @@
 	{
 		/*Criacao de uma variavel que armazenara as teclas lidas do teclado do tipo Evento*/
 		EVENTO leitura_teclado;
-		sentido = sentido;
 		
 		/*Verifica se houve um evento ocorrido do teclado*/
 		do
@@ -311,6 +310,11 @@
 								Quadrado->Y -= 1;
 								break;
 							}
+							/*case TAB:
+							{
+								
+							}
+							case*/
 						}
 					}
 				}
