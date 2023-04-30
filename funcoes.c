@@ -111,7 +111,7 @@
 		
 		/*Gerando numeros aleatórios para a direção do quadrado*/
 		srand(time(NULL));
-		sentido = rand() % 3;
+		sentido = rand() % 4;
 		
 		/*Guarda o tamanho maximo da janela do console*/
 		tamMaxJanela = MaxDimensaoJanela();
@@ -155,7 +155,7 @@
 		/*Laço infinito*/
 		do
 		{
-			Ler_Teclado(&Quadrado, sentido);
+			Ler_Teclado(&Quadrado, &sentido);
 			/*Limites para as bordas da direira e esquerda*/
 			/*Direita*/
 			if(Quadrado.X < x + 4)
@@ -229,7 +229,7 @@
 					putchar(42);
 				}
 			}
-			Sleep(100);
+			Sleep(1000);
 			Apaga_Quadrado(Quadrado, sentido);
 		}
 			
@@ -259,6 +259,7 @@
 				{
 					gotoxy(Quadrado->X - 1 + j, Quadrado->Y - 1 + i - 1);
 					putchar(42);
+					printf("+");
 				}
 			}
 			Sleep(100);
@@ -267,7 +268,7 @@
 	}
 	
 	/*Função que realiza as leituras das teclas lidas do teclado*/
-	void Ler_Teclado(COORD *Quadrado, int sentido)
+	void Ler_Teclado(COORD *Quadrado, int *sentido)
 	{
 		/*Criacao de uma variavel que armazenara as teclas lidas do teclado do tipo Evento*/
 		EVENTO leitura_teclado;
@@ -289,11 +290,28 @@
 							/*Verificações que irão movimentar o quadrado de acordo com as teclas que o usuário pressionar*/
 							case SETA_PARA_ESQUERDA:
 							{
-								sentido = 0;
+								*sentido = 0;
 								Quadrado->X -= 1;
 								break;
 							}	
-							
+							case SETA_PARA_DIREITA:
+							{
+								*sentido = 1;
+								Quadrado->X += 1;
+								break;
+							}
+							case SETA_PARA_BAIXO:
+							{
+								*sentido = 3;
+								Quadrado->Y += 1;
+								break;
+							}
+							case SETA_PARA_CIMA:
+							{
+								*sentido = 2;
+								Quadrado->Y -= 1;
+								break;
+							}
 						}
 					}
 				}
