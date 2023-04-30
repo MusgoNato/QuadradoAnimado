@@ -80,7 +80,7 @@
 			{
 				for(j = 0; j < 3; j++)
 				{
-					gotoxy(Quadrado->X - 1 + j, Quadrado->Y - 1 + i + 3);
+					gotoxy(Quadrado->X - 1 + j, Quadrado->Y - 1 + i + 2);
 					putchar(32);
 				}
 			}
@@ -93,7 +93,7 @@
 			{
 				for(j = 0; j < 3; j++)
 				{
-					gotoxy(Quadrado->X - 1 + j, Quadrado->Y - 1 + i - 3);
+					gotoxy(Quadrado->X - 1 + j, Quadrado->Y - 1 + i - 2);
 					putchar(32);
 				}
 			}
@@ -104,7 +104,7 @@
 	void Cria_Retangulo(int linhas, int colunas)
 	{
 		int i, j, x, y;
-		int direcao = 0;
+		int direcao = 2;
 		
 		/*Tamanho Máximo da Janela para (x,y)*/
 		COORD tamMaxJanela;
@@ -167,11 +167,11 @@
 				direcao = 0;
 			}
 			/*Limites para as bordas de cima e de baixo do retângulo*/
-			if(Quadrado.Y < y)
+			if(Quadrado.Y < y + 1)
 			{
 				direcao = 3;
 			}
-			if(Quadrado.Y > y + linhas)
+			if(Quadrado.Y > y + linhas - y)
 			{
 				direcao = 2;
 			}
