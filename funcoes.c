@@ -169,7 +169,7 @@
 		/*Laço infinito*/
 		do
 		{
-			Ler_Teclado(&Quadrado, &sentido, x, y, &velocidade, &cores, &leitura_teclado);
+			Ler_Teclado(&Quadrado, &sentido, &x, &y, &velocidade, &cores, &leitura_teclado);
 			/*Limites para as bordas da direira e esquerda*/
 			/*Direita*/
 			if(Quadrado.X < x + 4)
@@ -284,11 +284,11 @@
 	}
 	
 	/*Função que realiza as leituras das teclas lidas do teclado*/
-	void Ler_Teclado(COORD *Quadrado, int *sentido, int x, int y, int *velocidade, COLORS *cores, EVENTO *leitura_teclado)
+	void Ler_Teclado(COORD *Quadrado, int *sentido, int *x, int *y, int *velocidade, COLORS *cores, EVENTO *leitura_teclado)
 	{
+		/*Variavel que armazena um valor verdadeiro para o while*/
 		int saida = TRUE;
-		/*Criacao de uma variavel que armazenara as teclas lidas do teclado do tipo Evento*/
-		*cores = 5;
+		
 		/*Verifica se houve um evento ocorrido do teclado*/
 		do
 		{
@@ -341,71 +341,87 @@
 							/*Aumenta a área para a esquerda*/
 							case F3:
 							{
-								x++;
+								*y -= 1;
+								*x -= 1;
+								gotoxy(*x, *y);
 								break;
 							}
 							/*Diminui a partir da borda para a esquerda*/
 							case F4:
 							{
-								x++;
+								*x += 1;
+								gotoxy(*x, *y);
 								break;
 							}
 							/*Aumenta a área para a direita*/
 							case F5:
 							{
-								x++;
+								*x += 1;
+								*y += 1;
+								gotoxy(*x, *y);
 								break;
 							}
 							/*Diminui a área a partir da borda da direita*/
 							case F6:
 							{
-								y++;
+								*x -= 1;
+								*y -= 1;
+								gotoxy(*x, *y);
 								break;
 							}
 							/*Aumenta a área para cima*/
 							case F7:
 							{
-								y++;
-								break;;
+								*y -= 1;
+								gotoxy(*x, *y);
+								break;
 							}
 							/*Diminui a área a partir da borda de cima*/
 							case F8:
 							{
-								y++;
+								*y += 1;
+								gotoxy(*x, *y);
 								break;
 							}
 							/*Aumenta a área para baixo*/
 							case F9:
 							{
-								y++;
+								*y += 1;
+								gotoxy(*x, *y);
 								break;
 							}
 							/*Diminui a área a partir da borda de baixo*/
 							case F10:
 							{
-								y++;
+								*y -= 1;
+								gotoxy(*x, *y);
 								break;
 							}
 							
 							/*Verificações que irão movimentar o quadrado de acordo com as teclas que o usuário pressionar*/
+							
+							/*Sentido para a esquerda*/
 							case SETA_PARA_ESQUERDA:
 							{
 								*sentido = 0;
 								Quadrado->X -= 1;
 								break;
 							}	
+							/*SAentido para a direita*/
 							case SETA_PARA_DIREITA:
 							{
 								*sentido = 1;
 								Quadrado->X += 1;
 								break;
 							}
+							/*Sentido para baixo*/
 							case SETA_PARA_BAIXO:
 							{
 								*sentido = 3;
 								Quadrado->Y += 1;
 								break;
 							}
+							/*Sentido para cima*/
 							case SETA_PARA_CIMA:
 							{
 								*sentido = 2;
@@ -426,6 +442,7 @@
 					}
 				}
 			}
+		/*Sai do loop de  acordo com a tecla ESC*/
 		}while(saida != TRUE);
 	}
 	

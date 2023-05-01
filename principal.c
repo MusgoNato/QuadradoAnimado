@@ -10,7 +10,6 @@
 	Data da última modificação: 01/04/2023*/
 
 	#include <stdlib.h> /**/
-	#include <string.h> /**/
 	#include <windows.h> /**/
 	#include "funcoes.h" /*Cria_Retangulo(), Cria_Quadrado()*/
 	#include "conio_v3.2.4.h"   /* textbackground(), window(), gotoxy(), getch(), constantes BLACK, BLUE, LIGHTGRAY */

@@ -10,4 +10,4 @@
 	void Cria_Quadrado(COORD *Quadrado);
 	void Apaga_Quadrado(COORD *Quadrado, int sentido);
 	void Movimenta_Quadrado(COORD *Quadrado, int sentido, int velocidade);
-	void Ler_Teclado(COORD *Quadrado, int *sentido, int x, int y, int *velocidade, COLORS *cores, EVENTO *leitura_teclado);
+	void Ler_Teclado(COORD *Quadrado, int *sentido, int *x, int *y, int *velocidade, COLORS *cores, EVENTO *leitura_teclado);
