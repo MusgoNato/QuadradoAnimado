@@ -8,12 +8,10 @@
 	Programador: Hugo Josue Lema Das Neves
 	RGM: 47159
 	Data da última modificação: 01/04/2023*/
-
-	#include <stdlib.h> /**/
-	#include <windows.h> /**/
-	#include "funcoes.h" /*Cria_Retangulo(), Cria_Quadrado()*/
-	#include "conio_v3.2.4.h"   /* textbackground(), window(), gotoxy(), getch(), constantes BLACK, BLUE, LIGHTGRAY */
-	#include "console_v1.5.4.h" 
+	
+	#include "funcoes.h" /*Cria_Retangulo(), Cria_Quadrado(), Apaga_Quadrado(), Movimenta_quadrado(), Ler_Teclado()*/
+	#include "conio_v3.2.4.h"   /* textbackground(), textcolor(), gotoxy(), constantes BLACK, BLUE */
+	#include "console_v1.5.4.h" /*EVENTO(), hit(), MaxDimensaoJanela(), setCursorStatus(), setDimensaojanela(),*/
 
 	int main(int argc, char *argv[])
 	{

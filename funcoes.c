@@ -2,7 +2,6 @@
 	#include "conio_v3.2.4.h"
 	#include "console_v1.5.4.h"
 	#include "funcoes.h"
-	#include <stdlib.h>
 	#include <time.h> /*rand()*/
 	#include <windows.h>
 	
@@ -12,12 +11,8 @@
 	/*Tecla saída do programa*/
 	#define ESC 27
 	
-	/**/
-	#define ENTER 13
-	
 	/*Teclas para mudança de cor do quadrado e retângulo*/
 	#define ESPACO 32
-	
 	
 	/*Teclas para velocidade do quadrado*/
 	#define F1 112
@@ -32,7 +27,6 @@
 	#define F8 119
 	#define F9 120
 	#define F10 121
-
 	
 	/*Teclas para o quadrado*/
 	#define SETA_PARA_ESQUERDA 37
@@ -116,10 +110,14 @@
 		int sentido;
 		int velocidade = 1000;
 		
-		/*Tamanho Máximo da Janela para (x,y)*/
+		/*2 tipos COORD, onde serão utilizados para armazenar o x e t correspondente*/
 		COORD tamMaxJanela;
 		COORD Quadrado;
+		
+		/*variavel que irá acesssar a estrutura do tipo COLORS, contendo as cores disponiveis para troca do retangulo e quadrado*/
 		COLORS cores;
+		
+		/*Responsável por ler as teclas do teclado como do tipo Evento*/
 		EVENTO leitura_teclado;
 		
 		/*Gerando numeros aleatórios para a direção do quadrado*/
@@ -133,43 +131,47 @@
 		/*Seta a nova Dimensao da Janela do Console*/
 		setDimensaoJanela(tamMaxJanela.X, tamMaxJanela.Y);
 		
+		/*Cálculo para a impressão do retângulo*/
 		x = (tamMaxJanela.X - colunas)/2;
 		y = (tamMaxJanela.Y - linhas)/2;
 		
 		/*Apaga o cursor*/
 		_setcursortype(_NOCURSOR);
 		
-		
-		/*Linha horizontal superior do ret�ngulo*/
+		/*Linha horizontal superior do retângulo*/
 		for(j = 0; j < colunas; j++)
 		{
 			gotoxy(x + j, y);
 			putchar(32);
 		}
-		/*Linha vertical da esquerda do ret�ngulo*/
+		/*Linha vertical da esquerda do retângulo*/
 		for(i = 0; i < linhas - 1; i++)
 		{
 			gotoxy(x, y + i + 1);
 			putchar(32);
 		}
-		/*Linha horizontal inferior do ret�ngulo*/
+		/*Linha horizontal inferior do retângulo*/
 		for(j = 0; j < colunas - 1; j++)
 		{
 			gotoxy(x + j + 1, y + linhas - 1);
 			putchar(32);
 		}
-		/*Linha vertical da direita do ret�ngulo*/
+		/*Linha vertical da direita do retângulo*/
 		for(i = 0; i < linhas - 1; i++)
 		{
 			gotoxy(x + colunas - 1, y + i);
 			putchar(32);
 		}
+		
+		/*Chama a função que irá por o quadrado no meio*/
 		Cria_Quadrado(&Quadrado);
 		
 		/*Laço infinito*/
 		do
 		{
+			/*Chama a função que ira ler o teclado e retornar os valores correspondentes a cada tecla lida para modificação*/
 			Ler_Teclado(&Quadrado, &sentido, &x, &y, &velocidade, &cores, &leitura_teclado);
+			
 			/*Limites para as bordas da direira e esquerda*/
 			/*Direita*/
 			if(Quadrado.X < x + 4)
@@ -200,6 +202,7 @@
 		
 		/*Devolve o cursor ao seu estado normal*/
 		_setcursortype(_NORMALCURSOR);
+		
 		/*Posiciona x e y para o final da linha console*/
 		gotoxy(tamMaxJanela.X, tamMaxJanela.Y);
 	}
@@ -325,16 +328,21 @@
 							/*Aumenta*/
 							case F1:
 							{
+								if(*velocidade > 0)
+								{
 								*velocidade -= 100;
 								Sleep(1000 - *velocidade);
+								}
 								break;
 							}
 							/*Diminui*/
 							case F2:
 							{
-								
+								if(*velocidade < 1500)
+								{
 								*velocidade += 100;
 								Sleep(1000 + *velocidade);
+								}
 								break;
 							}
 							
