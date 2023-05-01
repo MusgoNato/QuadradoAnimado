@@ -1,4 +1,4 @@
-﻿	/*Algumas fun��es para utiliza��o na main principal*/
+﻿	/*Algumas funções para utiliza��o na main principal*/
 	#include "conio_v3.2.4.h"
 	#include "console_v1.5.4.h"
 	#include "funcoes.h"
@@ -6,12 +6,18 @@
 	#include <time.h> /*rand()*/
 	#include <windows.h>
 	
-	/*Tecla sa�da do programa*/
+	#define LINHAS 40
+	#define COLUNAS 100
+	
+	/*Tecla saída do programa*/
 	#define ESC 27
+	
+	/**/
 	#define ENTER 13
-	#define BACKSPACE 8
+	
+	/*Teclas para mudança de cor do quadrado e retângulo*/
 	#define ESPACO 32
-	#define TAB 9
+	
 	
 	/*Teclas para velocidade do quadrado*/
 	#define F1 112
@@ -34,11 +40,13 @@
 	#define SETA_PARA_DIREITA 39
 	#define SETA_PARA_BAIXO 40
 	
-	/*Tecla para mudança da cor do Quadrado*/
-	#define ESPACO 32
 	
 	/*Tecla para mudança da cor do retângulo*/
 	#define TAB 9
+	
+	/*Valores para realizar a saida do programa*/
+	#define TRUE 1
+	#define FALSE 0
 	
 	/*Apaga o Quadrado passando a sua última posição que ele tinha*/
 	void Apaga_Quadrado(COORD *Quadrado, int sentido)
@@ -102,6 +110,8 @@
 	/*Cria as bordas do retângulo*/
 	void Cria_Retangulo(int linhas, int colunas)
 	{
+		/*i e j são variáveis contadoras para a impressão do retângulo
+		x e y são variáveis responsáveis por armazenar os calculos para o retângulo e para este ser impresso*/
 		int i, j, x, y;
 		int sentido;
 		
@@ -123,7 +133,9 @@
 		x = (tamMaxJanela.X - colunas)/2;
 		y = (tamMaxJanela.Y - linhas)/2;
 		
+		/*Apaga o cursor*/
 		_setcursortype(_NOCURSOR);
+		
 		/*Linha horizontal superior do ret�ngulo*/
 		for(j = 0; j < colunas; j++)
 		{
@@ -148,14 +160,12 @@
 			gotoxy(x + colunas - 1, y + i);
 			putchar(32);
 		}
-
 		Cria_Quadrado(&Quadrado);
-		_setcursortype(_NORMALCURSOR);
 		
 		/*Laço infinito*/
 		do
 		{
-			Ler_Teclado(&Quadrado, &sentido);
+			Ler_Teclado(&Quadrado, &sentido, x, y);
 			/*Limites para as bordas da direira e esquerda*/
 			/*Direita*/
 			if(Quadrado.X < x + 4)
@@ -183,14 +193,17 @@
 			/*Chamada da função que cria e movimenta o quadrado para uns dos lados*/
 			Movimenta_Quadrado(&Quadrado, sentido);
 		}while(1);
+		
+		/*Devolve o cursor ao seu estado normal*/
+		_setcursortype(_NORMALCURSOR);
 		/*Posiciona x e y para o final da linha console*/
 		gotoxy(tamMaxJanela.X, tamMaxJanela.Y);
 	}
 		
-	/*Função que irá criar o quadrado central a partir das coordenadas passadas na função Cria_Retangulo();*/
+	/*Função que irá calcular o meio do Quadrado para X e Y que sao da estrutura COORD*/
 	void Cria_Quadrado(COORD *Quadrado)
 	{
-		/*Troca o fundo da janela do console e posiciona no meio do Quadrado à ser criado*/
+		/*Troca o fundo da janela do console e posiciona no meio o Quadrado que ainda sera criado*/
 		textbackground(BLACK);
 		Quadrado->X = Quadrado->X/2;
 		Quadrado->Y = Quadrado->Y/2;
@@ -245,7 +258,7 @@
 					putchar(42);
 				}
 			}	
-			Sleep(100);
+			Sleep(1000);
 			Apaga_Quadrado(Quadrado, sentido);
 		}
 			
@@ -261,20 +274,24 @@
 					putchar(42);
 				}
 			}
-			Sleep(100);
+			Sleep(1000);
 			Apaga_Quadrado(Quadrado, sentido);
 		}
 	}
 	
 	/*Função que realiza as leituras das teclas lidas do teclado*/
-	void Ler_Teclado(COORD *Quadrado, int *sentido)
+	void Ler_Teclado(COORD *Quadrado, int *sentido, int x, int y)
 	{
+		int saida = TRUE;
+		int velocidade_Quadrado = 250;
 		/*Criacao de uma variavel que armazenara as teclas lidas do teclado do tipo Evento*/
 		EVENTO leitura_teclado;
+		COLORS cores;
 		
 		/*Verifica se houve um evento ocorrido do teclado*/
 		do
 		{
+			/*Verifica se há algum pressionamento de tecla do teclado*/
 			if(hit(KEYBOARD_HIT))
 			{
 				leitura_teclado = Evento();
@@ -283,8 +300,89 @@
 				{
 					if(leitura_teclado.teclado.status_tecla == LIBERADA)
 					{
+						/*O switch case ira agir de acordo com a tecla pressionada anterior*/
 						switch(leitura_teclado.teclado.codigo_tecla)
 						{
+							/*Muda a cor do quadrado*/
+							case ESPACO:
+							{
+								cores = rand() % 15 + 1;
+								textcolor(cores);
+								break;
+							}
+							
+							/*Saida do loop e encerra o programa*/
+							case ESC:
+							{
+								saida = FALSE;
+								cores = LIGHTGRAY;
+								exit(0);
+								break;
+							}
+							
+							/*velocidade para o quadrado*/
+							/*Aumenta*/
+							case F1:
+							{
+								Sleep(1000-velocidade_Quadrado);
+								break;
+							}
+							/*Diminui*/
+							case F2:
+							{
+								Sleep(1000+velocidade_Quadrado);
+								break;
+							}
+							
+							/*Aumenta a área para a esquerda*/
+							case F3:
+							{
+								x++;
+								break;
+							}
+							/*Diminui a partir da borda para a esquerda*/
+							case F4:
+							{
+								x++;
+								break;
+							}
+							/*Aumenta a área para a direita*/
+							case F5:
+							{
+								x++;
+								break;
+							}
+							/*Diminui a área a partir da borda da direita*/
+							case F6:
+							{
+								y++;
+								break;
+							}
+							/*Aumenta a área para cima*/
+							case F7:
+							{
+								y++;
+								break;;
+							}
+							/*Diminui a área a partir da borda de cima*/
+							case F8:
+							{
+								y++;
+								break;
+							}
+							/*Aumenta a área para baixo*/
+							case F9:
+							{
+								y++;
+								break;
+							}
+							/*Diminui a área a partir da borda de baixo*/
+							case F10:
+							{
+								y++;
+								break;
+							}
+							
 							/*Verificações que irão movimentar o quadrado de acordo com as teclas que o usuário pressionar*/
 							case SETA_PARA_ESQUERDA:
 							{
@@ -310,16 +408,21 @@
 								Quadrado->Y -= 1;
 								break;
 							}
-							/*case TAB:
+							
+							/*Muda a cor do retângulo nao funciona
+							case TAB:
 							{
-								
-							}
-							case*/
+								cores = rand() % 15 + 1;
+								Cria_Retangulo(linhas, colunas);
+								break;
+							}*/
+							
+							
 						}
 					}
 				}
 			}
-		}while(leitura_teclado.teclado.codigo_tecla == ESC);
+		}while(saida != TRUE);
 	}
 	
 
