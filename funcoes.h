@@ -9,5 +9,5 @@
 	void Cria_Retangulo(int linhas, int colunas);
 	void Cria_Quadrado(COORD *Quadrado);
 	void Apaga_Quadrado(COORD *Quadrado, int sentido);
-	void Movimenta_Quadrado(COORD *Quadrado, int sentido);
-	void Ler_Teclado(COORD *Quadrado, int *sentido, int x, int y);
+	void Movimenta_Quadrado(COORD *Quadrado, int sentido, int velocidade);
+	void Ler_Teclado(COORD *Quadrado, int *sentido, int x, int y, int *velocidade, COLORS *cores, EVENTO *leitura_teclado);

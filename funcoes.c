@@ -114,10 +114,13 @@
 		x e y são variáveis responsáveis por armazenar os calculos para o retângulo e para este ser impresso*/
 		int i, j, x, y;
 		int sentido;
+		int velocidade = 1000;
 		
 		/*Tamanho Máximo da Janela para (x,y)*/
 		COORD tamMaxJanela;
 		COORD Quadrado;
+		COLORS cores;
+		EVENTO leitura_teclado;
 		
 		/*Gerando numeros aleatórios para a direção do quadrado*/
 		srand(time(NULL));
@@ -135,6 +138,7 @@
 		
 		/*Apaga o cursor*/
 		_setcursortype(_NOCURSOR);
+		
 		
 		/*Linha horizontal superior do ret�ngulo*/
 		for(j = 0; j < colunas; j++)
@@ -165,7 +169,7 @@
 		/*Laço infinito*/
 		do
 		{
-			Ler_Teclado(&Quadrado, &sentido, x, y);
+			Ler_Teclado(&Quadrado, &sentido, x, y, &velocidade, &cores, &leitura_teclado);
 			/*Limites para as bordas da direira e esquerda*/
 			/*Direita*/
 			if(Quadrado.X < x + 4)
@@ -191,7 +195,7 @@
 			}
 
 			/*Chamada da função que cria e movimenta o quadrado para uns dos lados*/
-			Movimenta_Quadrado(&Quadrado, sentido);
+			Movimenta_Quadrado(&Quadrado, sentido, velocidade);
 		}while(1);
 		
 		/*Devolve o cursor ao seu estado normal*/
@@ -210,7 +214,7 @@
 	}
 	
 	/*Cria e movimenta para um dos 4 sentidos possíveis o quadrado*/
-	void Movimenta_Quadrado(COORD *Quadrado, int sentido)
+	void Movimenta_Quadrado(COORD *Quadrado, int sentido, int velocidade)
 	{
 		int i, j;
 		
@@ -226,7 +230,7 @@
 					putchar(42);
 				}
 			}
-			Sleep(1000);
+			Sleep(velocidade);
 			Apaga_Quadrado(Quadrado, sentido);
 		}
 			
@@ -242,7 +246,7 @@
 					putchar(42);
 				}
 			}
-			Sleep(1000);
+			Sleep(velocidade);
 			Apaga_Quadrado(Quadrado, sentido);
 		}
 			
@@ -258,7 +262,7 @@
 					putchar(42);
 				}
 			}	
-			Sleep(1000);
+			Sleep(velocidade);
 			Apaga_Quadrado(Quadrado, sentido);
 		}
 			
@@ -274,40 +278,37 @@
 					putchar(42);
 				}
 			}
-			Sleep(1000);
+			Sleep(velocidade);
 			Apaga_Quadrado(Quadrado, sentido);
 		}
 	}
 	
 	/*Função que realiza as leituras das teclas lidas do teclado*/
-	void Ler_Teclado(COORD *Quadrado, int *sentido, int x, int y)
+	void Ler_Teclado(COORD *Quadrado, int *sentido, int x, int y, int *velocidade, COLORS *cores, EVENTO *leitura_teclado)
 	{
 		int saida = TRUE;
-		int velocidade_Quadrado = 250;
 		/*Criacao de uma variavel que armazenara as teclas lidas do teclado do tipo Evento*/
-		EVENTO leitura_teclado;
-		COLORS cores;
-		
+		*cores = 5;
 		/*Verifica se houve um evento ocorrido do teclado*/
 		do
 		{
 			/*Verifica se há algum pressionamento de tecla do teclado*/
 			if(hit(KEYBOARD_HIT))
 			{
-				leitura_teclado = Evento();
+				*leitura_teclado = Evento();
 				
-				if(leitura_teclado.tipo_evento & KEY_EVENT)
+				if(leitura_teclado->tipo_evento & KEY_EVENT)
 				{
-					if(leitura_teclado.teclado.status_tecla == LIBERADA)
+					if(leitura_teclado->teclado.status_tecla == LIBERADA)
 					{
 						/*O switch case ira agir de acordo com a tecla pressionada anterior*/
-						switch(leitura_teclado.teclado.codigo_tecla)
+						switch(leitura_teclado->teclado.codigo_tecla)
 						{
 							/*Muda a cor do quadrado*/
 							case ESPACO:
 							{
-								cores = rand() % 15 + 1;
-								textcolor(cores);
+								*cores = rand() % 15 + 1;
+								textcolor(*cores);
 								break;
 							}
 							
@@ -315,7 +316,7 @@
 							case ESC:
 							{
 								saida = FALSE;
-								cores = LIGHTGRAY;
+								*cores = LIGHTGRAY;
 								exit(0);
 								break;
 							}
@@ -324,13 +325,16 @@
 							/*Aumenta*/
 							case F1:
 							{
-								Sleep(1000-velocidade_Quadrado);
+								*velocidade -= 100;
+								Sleep(1000 - *velocidade);
 								break;
 							}
 							/*Diminui*/
 							case F2:
 							{
-								Sleep(1000+velocidade_Quadrado);
+								
+								*velocidade += 100;
+								Sleep(1000 + *velocidade);
 								break;
 							}
 							
@@ -412,8 +416,8 @@
 							/*Muda a cor do retângulo nao funciona
 							case TAB:
 							{
-								cores = rand() % 15 + 1;
-								Cria_Retangulo(linhas, colunas);
+								*cores = rand() % 15 + 1;
+								textbackground(*cores);
 								break;
 							}*/
 							
