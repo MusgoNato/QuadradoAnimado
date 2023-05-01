@@ -12,7 +12,12 @@
 	#include "funcoes.h" /*Cria_Retangulo(), Cria_Quadrado(), Apaga_Quadrado(), Movimenta_quadrado(), Ler_Teclado()*/
 	#include "conio_v3.2.4.h"   /* textbackground(), textcolor(), gotoxy(), constantes BLACK, BLUE */
 	#include "console_v1.5.4.h" /*EVENTO(), hit(), MaxDimensaoJanela(), setCursorStatus(), setDimensaojanela(),*/
-
+	
+	/*Compilação
+	CTRL+C ->gcc principal.c -o principal.exe conio_v3.2.4.c console_v1.5.4.c funcoes.c -Wall -pedantic -Wextra -Werror
+	Execução -> principal.exe 
+	*/
+	
 	int main(int argc, char *argv[])
 	{
 		int linhas = 40;
