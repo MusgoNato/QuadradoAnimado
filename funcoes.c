@@ -45,6 +45,8 @@
 	/*Apaga o Quadrado passando a sua última posição que ele tinha*/
 	void Apaga_Quadrado(COORD *Quadrado, int sentido)
 	{
+		printf("escrevi e sai correndo");
+		
 		int i, j;
 		
 		/*Apaga a ultima impressão do quadrado em um dos 4 sentidos*/
