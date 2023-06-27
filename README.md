@@ -1,2 +1,2 @@
-# QuadradoAnimado
-Projeto Lachi 1.0
+# MultiplosQuadrados
+Trabalho Lachi v2.0
