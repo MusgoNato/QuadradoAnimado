@@ -13,6 +13,7 @@
 	/*Seta o meio da janela para que posteriormente seja usado para imprimir o quadrado na tela*/
 	void Cria_Quadrado(COORD *Quadrado);
 	
+	
 	/*Movimenta o Quadrado para uma das 4 direções possíveis*/
 	void Movimenta_Quadrado(COORD *Quadrado, int sentido, int velocidade);
 	

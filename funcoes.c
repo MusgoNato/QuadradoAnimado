@@ -2,7 +2,7 @@
 	#include "conio_v3.2.4.h"
 	#include "console_v1.5.4.h"
 	#include "funcoes.h"
-	#include <time.h> 
+	#include <time.h> /*rand()*/
 	#include <windows.h>
 	
 	#define LINHAS 40
@@ -45,6 +45,8 @@
 	/*Apaga o Quadrado passando a sua última posição que ele tinha*/
 	void Apaga_Quadrado(COORD *Quadrado, int sentido)
 	{
+		printf("escrevi e sai correndo");
+		
 		int i, j;
 		
 		/*Apaga a ultima impressão do quadrado em um dos 4 sentidos*/
@@ -130,7 +132,6 @@
 		
 		/*Seta a nova Dimensao da Janela do Console*/
 		setDimensaoJanela(tamMaxJanela.X, tamMaxJanela.Y);
-		setPosicaoJanela(0,0);
 		
 		/*Cálculo para a impressão do retângulo*/
 		x = (tamMaxJanela.X - colunas)/2;
@@ -167,36 +168,40 @@
 		/*Chama a função que irá por o quadrado no meio*/
 		Cria_Quadrado(&Quadrado);
 		
-		/*Chama a função que ira ler o teclado e retornar os valores correspondentes a cada tecla lida para modificação*/
-		Ler_Teclado(&Quadrado, &sentido, &x, &y, &velocidade, &cores, &leitura_teclado);
-		
-		/*Limites para as bordas da direira e esquerda*/
-		/*Direita*/
-		if(Quadrado.X < x + 4)
+		/*Laço infinito*/
+		do
 		{
-			sentido = 1;
-		}
-		/*Esquerda*/
-		if(Quadrado.X > x + colunas - 3)
-		{
-			sentido = 0;
-		}
-		
-		/*Limites para as bordas de cima e de baixo do retângulo*/
-		/*Baixo*/
-		if(Quadrado.Y < y + 3)
-		{
-			sentido = 3;
-		}
-		/*Cima*/
-		if(Quadrado.Y >= y + linhas - 4)
-		{
-			sentido = 2;
-		}
+			/*Chama a função que ira ler o teclado e retornar os valores correspondentes a cada tecla lida para modificação*/
+			Ler_Teclado(&Quadrado, &sentido, &x, &y, &velocidade, &cores, &leitura_teclado);
+			
+			/*Limites para as bordas da direira e esquerda*/
+			/*Direita*/
+			if(Quadrado.X < x + 4)
+			{
+				sentido = 1;
+			}
+			/*Esquerda*/
+			if(Quadrado.X > x + colunas - 3)
+			{
+				sentido = 0;
+			}
+			
+			/*Limites para as bordas de cima e de baixo do retângulo*/
+			/*Baixo*/
+			if(Quadrado.Y < y + 3)
+			{
+				sentido = 3;
+			}
+			/*Cima*/
+			if(Quadrado.Y >= y + linhas - 4)
+			{
+				sentido = 2;
+			}
 
-		/*Chamada da função que cria e movimenta o quadrado para uns dos lados*/
-		Movimenta_Quadrado(&Quadrado, sentido, velocidade);
-	
+			/*Chamada da função que cria e movimenta o quadrado para uns dos lados*/
+			Movimenta_Quadrado(&Quadrado, sentido, velocidade);
+		}while(1);
+		
 		/*Devolve o cursor ao seu estado normal*/
 		_setcursortype(_NORMALCURSOR);
 		
@@ -286,6 +291,12 @@
 	/*Função que realiza as leituras das teclas lidas do teclado*/
 	void Ler_Teclado(COORD *Quadrado, int *sentido, int *x, int *y, int *velocidade, COLORS *cores, EVENTO *leitura_teclado)
 	{
+		/*Variavel que armazena um valor verdadeiro para o while*/
+		int saida = TRUE;
+		
+		/*Verifica se houve um evento ocorrido do teclado*/
+		do
+		{
 			/*Verifica se há algum pressionamento de tecla do teclado*/
 			if(hit(KEYBOARD_HIT))
 			{
@@ -309,7 +320,7 @@
 							/*Saida do loop e encerra o programa*/
 							case ESC:
 							{
-								
+								saida = FALSE;
 								*cores = LIGHTGRAY;
 								exit(0);
 								break;
@@ -319,18 +330,20 @@
 							/*Aumenta*/
 							case F1:
 							{
-								if(*velocidade >= 1)
+								if(*velocidade > 0)
 								{
 								*velocidade -= 100;
+								Sleep(1000 - *velocidade);
 								}
 								break;
 							}
 							/*Diminui*/
 							case F2:
 							{
-								if(*velocidade <= 1000)
+								if(*velocidade < 1500)
 								{
 								*velocidade += 100;
+								Sleep(1000 + *velocidade);
 								}
 								break;
 							}
@@ -439,4 +452,18 @@
 					}
 				}
 			}
+		/*Sai do loop de  acordo com a tecla ESC*/
+		}while(saida != TRUE);
 	}
+	
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
