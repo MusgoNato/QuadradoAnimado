@@ -7,11 +7,12 @@
 	
 	Programador: Hugo Josue Lema Das Neves
 	RGM: 47159
-	Data da última modificação: 01/04/2023*/
+	Data da última modificação: 19/07/2023*/
 	
 	#include "funcoes.h" /*Cria_Retangulo(), Cria_Quadrado(), Apaga_Quadrado(), Movimenta_quadrado(), Ler_Teclado()*/
 	#include "conio_v3.2.4.h"   /* textbackground(), textcolor(), gotoxy(), constantes BLACK, BLUE */
 	#include "console_v1.5.4.h" /*EVENTO(), hit(), MaxDimensaoJanela(), setCursorStatus(), setDimensaojanela(),*/
+	#include <time.h>
 	
 	/*Compilação
 	CTRL+C ->gcc principal.c -o principal.exe conio_v3.2.4.c console_v1.5.4.c funcoes.c -Wall -pedantic -Wextra -Werror
@@ -20,25 +21,38 @@
 	
 	int main(int argc, char *argv[])
 	{
-		int linhas = 40;
-		int colunas = 100;
-		
-		/*Artifício para silenciar os Warnings*/
+		/*Declaracao das Estruturas*/
+		RETANGULO Retangulo;
+		QUADRADO Quadrado;
+		LE_TECLADO Leitura;
+		JANELA Janela;
+		INFORMACOES Informacoes;
+
+		/*Artificio para silenciar os warnings*/
 		argc = argc;
 		argv = argv;
+		
+		/*Colocando a semente de aleatoriedade*/
+		srand(time(NULL));
+
+		/*Chamada das Funções para atribuições em geral*/
+		Apaga_Cursor();
+		Atribui_Valores_Q_R(&Retangulo, &Quadrado);
+		Janela_Full(&Janela);
+		Coord_Retangulo(&Retangulo);
+		Cria_Quadrado(&Quadrado);
 
 		/*Limpa a tela*/
 		clrscr();
-		
-		/*Muda a cor para azul, para impressao do retângulo*/
-		textbackground(BLUE);
-		
-		/*Chamada da função para criação do retângulo e quadrado*/
-		Cria_Retangulo(linhas, colunas);
-		
-		/*Devolve a cor original da janela de console*/
-		textbackground(BLACK);
-		textcolor(7);
-		clrscr();
+
+		/*Loop infinito*/
+		do
+		{
+			Cria_Retangulo(&Retangulo);
+			Movimenta_Quadrado(&Quadrado, &Retangulo);
+			Le_Teclado(&Leitura, &Retangulo, &Quadrado, &Informacoes);
+
+		}while(1);
+
 		return 0;
 	}

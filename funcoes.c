@@ -2,11 +2,9 @@
 	#include "conio_v3.2.4.h"
 	#include "console_v1.5.4.h"
 	#include "funcoes.h"
-	#include <time.h> /*rand()*/
+	#include <string.h>
+	#include <time.h> 
 	#include <windows.h>
-	
-	#define LINHAS 40
-	#define COLUNAS 100
 	
 	/*Tecla saída do programa*/
 	#define ESC 27
@@ -41,429 +39,436 @@
 	/*Valores para realizar a saida do programa*/
 	#define TRUE 1
 	#define FALSE 0
-	
-	/*Apaga o Quadrado passando a sua última posição que ele tinha*/
-	void Apaga_Quadrado(COORD *Quadrado, int sentido)
-	{
-		printf("escrevi e sai correndo");
-		
-		int i, j;
-		
-		/*Apaga a ultima impressão do quadrado em um dos 4 sentidos*/
-		/*Esquerda*/
-		if(sentido == 0)
-		{
-			for(i = 0; i < 3; i++)
-			{
-				for(j = 0; j < 3; j++)
-				{
-					gotoxy(Quadrado->X - 1 + j - 1, Quadrado->Y - 1 + i + 1);
-					putchar(32);
-				}
-			}
-		}
-		
-		/*Direita*/
-		if(sentido == 1)
-		{
-			for(i = 0; i < 3; i++)
-			{
-				for(j = 0; j < 3; j++)
-				{
-					gotoxy(Quadrado->X - 1 - j + 1, Quadrado->Y - 1 + i + 1);
-					putchar(32);
-				}
-			}
-		}
-		
-		/*Cima*/
-		if(sentido == 2)
-		{
-			for(i = 0; i < 3; i++)
-			{
-				for(j = 0; j < 3; j++)
-				{
-					gotoxy(Quadrado->X - 1 + j, Quadrado->Y - 1 + i + 2);
-					putchar(32);
-				}
-			}
-		}
-		
-		/*Baixo*/
-		if(sentido == 3)
-		{
-			for(i = 0; i < 3; i++)
-			{
-				for(j = 0; j < 3; j++)
-				{
-					gotoxy(Quadrado->X - 1 + j, Quadrado->Y - 1 + i - 1);
-					putchar(32);
-				}
-			}
-		}
-	}
-	
-	/*Cria as bordas do retângulo*/
-	void Cria_Retangulo(int linhas, int colunas)
-	{
-		/*i e j são variáveis contadoras para a impressão do retângulo
-		x e y são variáveis responsáveis por armazenar os calculos para o retângulo e para este ser impresso*/
-		int i, j, x, y;
-		int sentido;
-		int velocidade = 1000;
-		
-		/*2 tipos COORD, onde serão utilizados para armazenar o x e t correspondente*/
-		COORD tamMaxJanela;
-		COORD Quadrado;
-		
-		/*variavel que irá acesssar a estrutura do tipo COLORS, contendo as cores disponiveis para troca do retangulo e quadrado*/
-		COLORS cores;
-		
-		/*Responsável por ler as teclas do teclado como do tipo Evento*/
-		EVENTO leitura_teclado;
-		
-		/*Gerando numeros aleatórios para a direção do quadrado*/
-		srand(time(NULL));
-		sentido = rand() % 4;
-		
-		/*Guarda o tamanho maximo da janela do console*/
-		tamMaxJanela = MaxDimensaoJanela();
-		Quadrado = MaxDimensaoJanela();
-		
-		/*Seta a nova Dimensao da Janela do Console*/
-		setDimensaoJanela(tamMaxJanela.X, tamMaxJanela.Y);
-		
-		/*Cálculo para a impressão do retângulo*/
-		x = (tamMaxJanela.X - colunas)/2;
-		y = (tamMaxJanela.Y - linhas)/2;
-		
-		/*Apaga o cursor*/
-		_setcursortype(_NOCURSOR);
-		
-		/*Linha horizontal superior do retângulo*/
-		for(j = 0; j < colunas; j++)
-		{
-			gotoxy(x + j, y);
-			putchar(32);
-		}
-		/*Linha vertical da esquerda do retângulo*/
-		for(i = 0; i < linhas - 1; i++)
-		{
-			gotoxy(x, y + i + 1);
-			putchar(32);
-		}
-		/*Linha horizontal inferior do retângulo*/
-		for(j = 0; j < colunas - 1; j++)
-		{
-			gotoxy(x + j + 1, y + linhas - 1);
-			putchar(32);
-		}
-		/*Linha vertical da direita do retângulo*/
-		for(i = 0; i < linhas - 1; i++)
-		{
-			gotoxy(x + colunas - 1, y + i);
-			putchar(32);
-		}
-		
-		/*Chama a função que irá por o quadrado no meio*/
-		Cria_Quadrado(&Quadrado);
-		
-		/*Laço infinito*/
-		do
-		{
-			/*Chama a função que ira ler o teclado e retornar os valores correspondentes a cada tecla lida para modificação*/
-			Ler_Teclado(&Quadrado, &sentido, &x, &y, &velocidade, &cores, &leitura_teclado);
-			
-			/*Limites para as bordas da direira e esquerda*/
-			/*Direita*/
-			if(Quadrado.X < x + 4)
-			{
-				sentido = 1;
-			}
-			/*Esquerda*/
-			if(Quadrado.X > x + colunas - 3)
-			{
-				sentido = 0;
-			}
-			
-			/*Limites para as bordas de cima e de baixo do retângulo*/
-			/*Baixo*/
-			if(Quadrado.Y < y + 3)
-			{
-				sentido = 3;
-			}
-			/*Cima*/
-			if(Quadrado.Y >= y + linhas - 4)
-			{
-				sentido = 2;
-			}
 
-			/*Chamada da função que cria e movimenta o quadrado para uns dos lados*/
-			Movimenta_Quadrado(&Quadrado, sentido, velocidade);
-		}while(1);
-		
-		/*Devolve o cursor ao seu estado normal*/
-		_setcursortype(_NORMALCURSOR);
-		
-		/*Posiciona x e y para o final da linha console*/
-		gotoxy(tamMaxJanela.X, tamMaxJanela.Y);
-	}
-		
-	/*Função que irá calcular o meio do Quadrado para X e Y que sao da estrutura COORD*/
-	void Cria_Quadrado(COORD *Quadrado)
+	/*Funcao para atribuicao de aleatoriedade inicial e cores*/
+	void Atribui_Valores_Q_R(RETANGULO *Retangulo, QUADRADO *Quadrado)
 	{
-		/*Troca o fundo da janela do console e posiciona no meio o Quadrado que ainda sera criado*/
+		/*Definindo cor inicial e informações do Retangulo e Quadrado*/
+		Retangulo->Cor_Retangulo = BLUE;
+		Quadrado->Cor_Quadrado = LIGHTGRAY;
+
+		/*Geração da primeira direcao do Quadrado e atribuicao de sua velocidade*/
+		Quadrado->direcao = rand() % 4;
+		Quadrado->velocidade = 1000;
+	}
+
+	/*Função que apaga o Cursor da tela*/
+	void Apaga_Cursor()
+	{
+		_setcursortype(_NOCURSOR);
+	}
+
+	/*Apaga o Quadrado do meio do Retangulo*/
+	void Apaga_Quadrado(QUADRADO *Quadrado_P)
+	{
+		textcolor(Quadrado_P->Cor_Quadrado);
+		/*Esquerda*/
+		if(Quadrado_P->direcao == 0)
+		{
+			gotoxy(Quadrado_P->Quadrado.X + 3, Quadrado_P->Quadrado.Y);
+			printf("   ");
+			gotoxy(Quadrado_P->Quadrado.X + 3, Quadrado_P->Quadrado.Y + 1);
+			printf("   ");
+			gotoxy(Quadrado_P->Quadrado.X + 3, Quadrado_P->Quadrado.Y - 1);
+			printf("   ");
+		}
+
+		/*Direita*/
+		if(Quadrado_P->direcao == 1)
+		{
+			gotoxy(Quadrado_P->Quadrado.X - 3, Quadrado_P->Quadrado.Y);
+			printf("   ");
+			gotoxy(Quadrado_P->Quadrado.X - 3, Quadrado_P->Quadrado.Y + 1);
+			printf("   ");
+			gotoxy(Quadrado_P->Quadrado.X - 3, Quadrado_P->Quadrado.Y - 1);
+			printf("   ");
+		}
+
+		/*Cima*/
+		if(Quadrado_P->direcao == 2)
+		{
+			gotoxy(Quadrado_P->Quadrado.X, Quadrado_P->Quadrado.Y + 2);
+			printf("   ");
+			gotoxy(Quadrado_P->Quadrado.X, Quadrado_P->Quadrado.Y + 2);
+			printf("   ");
+			gotoxy(Quadrado_P->Quadrado.X, Quadrado_P->Quadrado.Y - 3);
+			printf("   ");
+		}
+
+		/*Baixo*/
+		if(Quadrado_P->direcao == 3)
+		{
+			gotoxy(Quadrado_P->Quadrado.X, Quadrado_P->Quadrado.Y - 2);
+			printf("   ");
+			gotoxy(Quadrado_P->Quadrado.X, Quadrado_P->Quadrado.Y - 2);
+			printf("   ");
+			gotoxy(Quadrado_P->Quadrado.X, Quadrado_P->Quadrado.Y + 3);
+			printf("   ");
+		}
+	}
+
+	/*Funcao que seta as coordenadas do Quadrado_P (P = Pequeno)*/
+	void Cria_Quadrado(QUADRADO *Quadrado_P)
+	{
+		/*Setando as coordenadas do Quadrado menor ao meio do retangulo*/
+		Quadrado_P->Quadrado = MaxDimensaoJanela();
+		Quadrado_P->Quadrado.X = Quadrado_P->Quadrado.X/2;
+		Quadrado_P->Quadrado.Y = Quadrado_P->Quadrado.Y/2;
+	}
+
+	/*Desenha o Quadrado do meio na tela*/
+	void Desenha_Quadrado(QUADRADO *Quadrado_P)
+	{
 		textbackground(BLACK);
-		Quadrado->X = Quadrado->X/2;
-		Quadrado->Y = Quadrado->Y/2;
+		textcolor(Quadrado_P->Cor_Quadrado);
+		gotoxy(Quadrado_P->Quadrado.X, Quadrado_P->Quadrado.Y);
+		printf("***");
+		gotoxy(Quadrado_P->Quadrado.X, Quadrado_P->Quadrado.Y + 1);
+		printf("***");
+		gotoxy(Quadrado_P->Quadrado.X, Quadrado_P->Quadrado.Y - 1);
+		printf("***");
+		Apaga_Quadrado(Quadrado_P);
+
+		/*Controle de velocidade do quadrado*/
+		Sleep(Quadrado_P->velocidade);
 	}
-	
-	/*Cria e movimenta para um dos 4 sentidos possíveis o quadrado*/
-	void Movimenta_Quadrado(COORD *Quadrado, int sentido, int velocidade)
+
+	/*Função que movimenta o Quadrado em uma das direcoes*/
+	void Movimenta_Quadrado(QUADRADO *Quadrado_P, RETANGULO *Retangulo)
 	{
-		int i, j;
-		
-		/*Movimenta Quadrado para esquerda*/
-		if(sentido == 0)
+		/*Verificação da movimentação esquerda e colisão com o Retangulo borda esquerda*/
+		if(Quadrado_P->direcao == 0)
 		{
-			Quadrado->X -= 1;
-			for(i = 0; i < 3; i++)
+			Quadrado_P->Quadrado.X -= 1;
+
+			/*Verifica e inverte para direita o quadrado*/
+			if(Quadrado_P->Quadrado.X == Retangulo->Ponto_A.X + 1)
 			{
-				for(j = 0; j < 3; j++)
-				{
-					gotoxy(Quadrado->X - 1 - j + 1, Quadrado->Y - 1 + i + 1);
-					putchar(42);
-				}
+				Quadrado_P->direcao = 1;
 			}
-			Sleep(velocidade);
-			Apaga_Quadrado(Quadrado, sentido);
 		}
-			
-		/*para a direita*/
-		if(sentido == 1)
+
+		/*Verificação da movimentação direita e colisão com o Retangulo borda direita*/
+		if(Quadrado_P->direcao == 1)
 		{
-			Quadrado->X += 1;
-			for(i = 0; i < 3; i++)
+			Quadrado_P->Quadrado.X += 1;
+			
+			/*Verifica e inverte para esquerda o quadrado*/
+			if(Quadrado_P->Quadrado.X == Retangulo->Ponto_B.X - 3)
 			{
-				for(j = 0; j < 3; j++)
-				{
-					gotoxy(Quadrado->X - 1 + j - 1, Quadrado->Y - 1 + i + 1);
-					putchar(42);
-				}
+				Quadrado_P->direcao = 0;
 			}
-			Sleep(velocidade);
-			Apaga_Quadrado(Quadrado, sentido);
 		}
-			
-		/*para cima*/
-		if(sentido == 2)
+
+		/*Verificação da movimentação cima e colisão com o Retangulo borda de cima*/
+		if(Quadrado_P->direcao == 2)
 		{
-			Quadrado->Y -= 1;
-			for(i = 0; i < 3; i++)
+			Quadrado_P->Quadrado.Y -= 1;
+
+			/*Verifica e inverte para baixo o quadrado*/
+			if(Quadrado_P->Quadrado.Y == Retangulo->Ponto_A.Y + 2)
 			{
-				for(j = 0; j < 3; j++)
-				{
-					gotoxy(Quadrado->X - 1 + j, Quadrado->Y - 1 + i + 2);
-					putchar(42);
-				}
-			}	
-			Sleep(velocidade);
-			Apaga_Quadrado(Quadrado, sentido);
-		}
-			
-		/*para baixo*/		
-		if(sentido == 3)
-		{
-			Quadrado->Y += 1;
-			for(i = 0; i < 3; i++)
-			{
-				for(j = 0; j < 3; j++)
-				{
-					gotoxy(Quadrado->X - 1 + j, Quadrado->Y - 1 + i - 1);
-					putchar(42);
-				}
+				Quadrado_P->direcao = 3;
 			}
-			Sleep(velocidade);
-			Apaga_Quadrado(Quadrado, sentido);
 		}
+
+		/*Verificação da movimentação baixo e colisão com o Retangulo borda de baixo*/
+		if(Quadrado_P->direcao == 3)
+		{
+			Quadrado_P->Quadrado.Y += 1;
+
+			/*Verfica e inverte para cima o quadrado*/
+			if(Quadrado_P->Quadrado.Y == Retangulo->Ponto_B.Y - 3)
+			{
+				Quadrado_P->direcao = 2;
+			}
+		}
+
+		Desenha_Quadrado(Quadrado_P);
 	}
-	
-	/*Função que realiza as leituras das teclas lidas do teclado*/
-	void Ler_Teclado(COORD *Quadrado, int *sentido, int *x, int *y, int *velocidade, COLORS *cores, EVENTO *leitura_teclado)
+
+	/*Função que seta as coordenadas para a criação posterior do retangulo*/
+	void Coord_Retangulo(RETANGULO *Retangulo)
 	{
-		/*Variavel que armazena um valor verdadeiro para o while*/
-		int saida = TRUE;
+		/*Linhas e Colunas do Retangulo setadas*/
+		Retangulo->linhas = 40;
+		Retangulo->colunas = 100;
+
+		Retangulo->Ponto_A = MaxDimensaoJanela();
+		Retangulo->Ponto_A.X = Retangulo->Ponto_A.X/2/2;
+		Retangulo->Ponto_A.Y = Retangulo->Ponto_A.Y/2/2;
+		Retangulo->Ponto_B.X = Retangulo->Ponto_A.X + Retangulo->colunas;
+		Retangulo->Ponto_B.Y = Retangulo->Ponto_A.Y + Retangulo->linhas;
+	}
+
+	/*Desenha o Retangulo na tela*/
+	void Cria_Retangulo(RETANGULO *Retangulo)
+	{
+		int i;
+		/*Jogando o clear aqui da certo o quadrado mas zoa todo o retangulo, manter comentado
+		clrscr();
+		*/
 		
-		/*Verifica se houve um evento ocorrido do teclado*/
-		do
+		textbackground(Retangulo->Cor_Retangulo);
+		
+		for(i = 0; i < Retangulo->colunas; i++)
 		{
-			/*Verifica se há algum pressionamento de tecla do teclado*/
-			if(hit(KEYBOARD_HIT))
+			/*Borda de cima*/
+			gotoxy(Retangulo->Ponto_A.X + i, Retangulo->Ponto_A.Y);
+			putchar(32);
+
+			/*Borda de baixo*/
+			gotoxy(Retangulo->Ponto_A.X + i, Retangulo->Ponto_B.Y - 1); /*Ele decrementa uma vez so*/
+			putchar(32);
+		}
+
+		for(i = 0; i < Retangulo->linhas; i++)
+		{
+			/*Borda esquerda*/
+			gotoxy(Retangulo->Ponto_A.X, Retangulo->Ponto_B.Y - i - 1);
+			putchar(32);
+
+			/*Borda direita*/
+			gotoxy(Retangulo->Ponto_B.X, Retangulo->Ponto_A.Y + i);
+			putchar(32);
+		}
+
+	}
+
+	/*Função que ira maximizar o tamanho da janela do Console*/
+	void Janela_Full(JANELA *Janela)
+	{
+		Janela->Tam_Max = MaxDimensaoJanela();
+		setPosicaoJanela(1,1);
+		setDimensaoJanela(Janela->Tam_Max.X, Janela->Tam_Max.Y);
+	}
+
+	/*Funcao que ira ler as teclas que o usuario pressionar*/
+	void Le_Teclado(LE_TECLADO *Leitura, RETANGULO *Retangulo, QUADRADO *Quadrado_P, INFORMACOES *Informacoes)
+	{
+		/*Verifica se há algum pressionamento de tecla do teclado*/
+		if(hit(KEYBOARD_HIT))
+		{
+			Leitura->leitura_teclado = Evento();
+			
+			if(Leitura->leitura_teclado.tipo_evento & KEY_EVENT)
 			{
-				*leitura_teclado = Evento();
-				
-				if(leitura_teclado->tipo_evento & KEY_EVENT)
+				if(Leitura->leitura_teclado.teclado.status_tecla == LIBERADA)
 				{
-					if(leitura_teclado->teclado.status_tecla == LIBERADA)
+					/*O switch case ira agir de acordo com a tecla pressionada anterior*/
+					switch(Leitura->leitura_teclado.teclado.codigo_tecla)
 					{
-						/*O switch case ira agir de acordo com a tecla pressionada anterior*/
-						switch(leitura_teclado->teclado.codigo_tecla)
+						case ESC:
 						{
-							/*Muda a cor do quadrado*/
-							case ESPACO:
+							/*Sai do programa pondo em ordem as configurações iniciais antes da partida*/
+							textbackground(BLACK);
+							textcolor(LIGHTGRAY);
+							_setcursortype(_NORMALCURSOR);
+							clrscr();
+							gotoxy(1,1);
+							exit(0);
+							break;
+						}
+
+						case ESPACO:
+						{
+							/*Muda o cor do Quadrado*/
+							Quadrado_P->Cor_Quadrado = rand() % 15 + 1;
+							break;
+						}
+						
+						/*Aumenta a velocidade do Quadrado*/
+						case F1:
+						{
+							if(Quadrado_P->velocidade >= 100)
 							{
-								*cores = rand() % 15 + 1;
-								textcolor(*cores);
-								break;
+								Quadrado_P->velocidade -= 100;
 							}
+							break;
+						}
+			
+						/*Diminui a velocidade do Quadrado*/
+						case F2:
+						{
+							if(Quadrado_P->velocidade <= 1000)
+							{
+								Quadrado_P->velocidade += 100;
+							}
+							break;
+						}
+
+						/*Aumenta a partir da esquerda*/
+						case F3:
+						{
+							/*Verificacao da borda quando bate na janela*/
+							if(Retangulo->Ponto_A.X > 1)
+							{
+								/*Soma as colunas para nao deixar o lado direito parado num canto*/
+								Retangulo->colunas += 1;
+								Retangulo->Ponto_A.X -= 1;
+
+								/*Da um clear pra apagar a ultima posicao da linha do retangulo*/
+								clrscr();
+								Cria_Retangulo(Retangulo);
+							}
+							break;
+						}
+
+						/*Diminui a partir da esquerda*/
+						case F4:
+						{
+							/*Verificação para nao passar da outra borda do Retangulo*/
+							if(Retangulo->Ponto_A.X < Retangulo->Ponto_B.X - 6)
+							{
+								/*Decrementa as colunas para nao ultrapassar e arruinar as bordas do retangulo
+								***É o processo inverso do anterior*/
+								Retangulo->colunas -= 1;
+								Retangulo->Ponto_A.X += 1;
+								clrscr();
+								Cria_Retangulo(Retangulo);
+							}
+							break;
+						}
+
+						/*Aumenta a area para direita*/
+						case F5:
+						{
+							/*Aumenta as colunas e incrementa a coordenada B.X que esta no final da coordenada A.X*/
+							Retangulo->colunas += 1;
+							Retangulo->Ponto_B.X += 1;
+							clrscr();
+							Cria_Retangulo(Retangulo);
+							break;
+						}
+
+						/*Diminui a area da direita*/
+						case F6:
+						{
+							/*Verificação para para a borda direita nao encostar na borda esquerda*/
+							if(Retangulo->Ponto_B.X > Retangulo->Ponto_A.X + 6)
+							{
+								/*Processo inverso do anterior*/
+								Retangulo->colunas -= 1;
+								Retangulo->Ponto_B.X -= 1;
+								clrscr();
+								Cria_Retangulo(Retangulo);
+							}
+							break;
+						}
+
+						/*Aumenta a borda de cima*/
+						case F7:
+						{
+							if(Retangulo->Ponto_A.Y > 1)
+							{
+								/*Incrementa as linhas para nao arruinar a criacao das outras linhas do retangulo*/
+								Retangulo->linhas += 1;
+								Retangulo->Ponto_A.Y -= 1;
+								clrscr();
+								Cria_Retangulo(Retangulo);
+							}
+							break;
+						}
+
+						/*Diminui a borda de cima*/
+						case F8:
+						{
+							if(Retangulo->Ponto_A.Y < Retangulo->Ponto_B.Y - 6)
+							{
+								/*Processo inverso ao anterior*/
+								Retangulo->linhas -= 1;
+								Retangulo->Ponto_A.Y += 1;
+								clrscr();
+								Cria_Retangulo(Retangulo);
+							}
+							break;
+						}
+
+						/*Aumenta a borda de baixo*/
+						case F9:
+						{
+							/*Decrementa as linhas e a posicao do B.Y que esta na coordenada (A.Y + linhas)*/
+							Retangulo->linhas += 1;
+							Retangulo->Ponto_B.Y += 1;
+							clrscr();
+							Cria_Retangulo(Retangulo);
+							break;
+						}
+
+						/*Diminui a borda de baixo*/
+						case F10:
+						{
+							if(Retangulo->Ponto_B.Y > Retangulo->Ponto_A.Y + 6)
+							{
+								/*Processo inverso ao anterior*/
+								Retangulo->linhas -= 1;
+								Retangulo->Ponto_B.Y -= 1;
+								clrscr();
+								Cria_Retangulo(Retangulo);
+							}
+							break;
+
+						}
+
+						/*Seta para esquerda*/
+						case SETA_PARA_ESQUERDA:
+						{
+							Quadrado_P->direcao = 0;
+							gotoxy(1,1);
+							textcolor(LIGHTGRAY);
+							strcpy(Informacoes->Inf_direcao, "Direcao do Quadrado: Esquerda\n");
+							printf(Informacoes->Inf_direcao);
+							break;
+						}
+
+						/*Seta para direita*/
+						case SETA_PARA_DIREITA:
+						{
+							Quadrado_P->direcao = 1;
 							
-							/*Saida do loop e encerra o programa*/
-							case ESC:
-							{
-								saida = FALSE;
-								*cores = LIGHTGRAY;
-								exit(0);
-								break;
-							}
-							
-							/*velocidade para o quadrado*/
-							/*Aumenta*/
-							case F1:
-							{
-								if(*velocidade > 0)
-								{
-								*velocidade -= 100;
-								Sleep(1000 - *velocidade);
-								}
-								break;
-							}
-							/*Diminui*/
-							case F2:
-							{
-								if(*velocidade < 1500)
-								{
-								*velocidade += 100;
-								Sleep(1000 + *velocidade);
-								}
-								break;
-							}
-							
-							/*Aumenta a área para a esquerda*/
-							case F3:
-							{
-								*y -= 1;
-								*x -= 1;
-								gotoxy(*x, *y);
-								break;
-							}
-							/*Diminui a partir da borda para a esquerda*/
-							case F4:
-							{
-								*x += 1;
-								gotoxy(*x, *y);
-								break;
-							}
-							/*Aumenta a área para a direita*/
-							case F5:
-							{
-								*x += 1;
-								*y += 1;
-								gotoxy(*x, *y);
-								break;
-							}
-							/*Diminui a área a partir da borda da direita*/
-							case F6:
-							{
-								*x -= 1;
-								*y -= 1;
-								gotoxy(*x, *y);
-								break;
-							}
-							/*Aumenta a área para cima*/
-							case F7:
-							{
-								*y -= 1;
-								gotoxy(*x, *y);
-								break;
-							}
-							/*Diminui a área a partir da borda de cima*/
-							case F8:
-							{
-								*y += 1;
-								gotoxy(*x, *y);
-								break;
-							}
-							/*Aumenta a área para baixo*/
-							case F9:
-							{
-								*y += 1;
-								gotoxy(*x, *y);
-								break;
-							}
-							/*Diminui a área a partir da borda de baixo*/
-							case F10:
-							{
-								*y -= 1;
-								gotoxy(*x, *y);
-								break;
-							}
-							
-							/*Verificações que irão movimentar o quadrado de acordo com as teclas que o usuário pressionar*/
-							
-							/*Sentido para a esquerda*/
-							case SETA_PARA_ESQUERDA:
-							{
-								*sentido = 0;
-								Quadrado->X -= 1;
-								break;
-							}	
-							/*SAentido para a direita*/
-							case SETA_PARA_DIREITA:
-							{
-								*sentido = 1;
-								Quadrado->X += 1;
-								break;
-							}
-							/*Sentido para baixo*/
-							case SETA_PARA_BAIXO:
-							{
-								*sentido = 3;
-								Quadrado->Y += 1;
-								break;
-							}
-							/*Sentido para cima*/
-							case SETA_PARA_CIMA:
-							{
-								*sentido = 2;
-								Quadrado->Y -= 1;
-								break;
-							}
-							
-							/*Muda a cor do retângulo nao funciona
-							case TAB:
-							{
-								*cores = rand() % 15 + 1;
-								textbackground(*cores);
-								break;
-							}*/
-							
-							
+							gotoxy(1,1);
+							clreol();
+							textcolor(LIGHTGRAY);
+							strcpy(Informacoes->Inf_direcao, "Direcao do Quadrado: Direita\n");
+							printf(Informacoes->Inf_direcao);
+							break;
+						}
+
+						/*Seta para cima*/
+						case SETA_PARA_CIMA:
+						{
+							Quadrado_P->direcao = 2;
+							gotoxy(1,1);
+							clreol();
+							textcolor(LIGHTGRAY);
+							strcpy(Informacoes->Inf_direcao, "Direcao do Quadrado: Cima\n");
+							printf(Informacoes->Inf_direcao);
+							break;
+						}
+
+						/*seta para baixo*/
+						case SETA_PARA_BAIXO:
+						{
+							Quadrado_P->direcao = 3;
+							gotoxy(1,1);
+							clreol();
+							textcolor(LIGHTGRAY);
+							strcpy(Informacoes->Inf_direcao, "Direcao do Quadrado: Baixo\n");
+							printf(Informacoes->Inf_direcao);
+							break;
+						}
+
+						/*Muda a cor do Retangulo*/
+						case TAB:
+						{
+							Retangulo->Cor_Retangulo = rand() % 15 + 1;
+							break;
 						}
 					}
 				}
 			}
-		/*Sai do loop de  acordo com a tecla ESC*/
-		}while(saida != TRUE);
+		}
 	}
-	
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+/*Outro jeito seria mudar o decremento do quadrado(Quando ele bate na borda) 
+dentro da funcao que movimenta o quadrado, seria na funcao que desenha ele*/
